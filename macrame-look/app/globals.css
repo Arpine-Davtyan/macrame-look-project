@@ -1,0 +1,252 @@
+@import "tailwindcss";
+
+:root {
+  --ivory: #FAF6F5;
+  --ink: #29252D;
+  --purple: #70699B;
+  --mid-purple: #B47ABC;
+  --light-purple: #F5EDF7;
+  --cream: #F9F5F3;
+}
+
+@theme inline {
+  --color-ivory: var(--ivory);
+  --color-ink: var(--ink);
+  --color-purple: var(--purple);
+  --color-mid-purple: var(--mid-purple);
+  --color-light-purple: var(--light-purple);
+  --color-cream: var(--cream);
+
+  --font-cormorant-garamond: var(--font-cormorant-garamond);
+  --font-dm-sans: var(--font-dm-sans);
+}
+
+@utility flex-center {
+  @apply flex items-center justify-center;
+}
+
+@utility flex-col-center {
+  @apply flex flex-col items-center justify-center;
+}
+
+@utility section {
+  @apply max-w-screen flex-col-center px-6 py-12 gap-3;
+}
+
+@utility container {
+  @apply w-7xl max-w-full mx-auto px-4;
+}
+
+@utility btn {
+  @apply rounded-lg border border-purple/40 bg-purple/70 px-7 py-3 text-sm tracking-wide text-ivory transition-all duration-300 hover:text-purple hover:bg-ivory/60 hover:border-purple cursor-pointer outline-0;
+}
+
+@utility form-label {
+  @apply font-dm-sans text-sm;
+}
+
+@utility form-input {
+  @apply h-12 w-full rounded-lg border border-purple/80 mt-2 bg-white px-4 pr-12 font-dm-sans text-sm outline-none transition placeholder:text-ink/60 focus:border-light-purple focus:ring-2 focus:ring-purple/80;
+}
+
+@utility form-textarea {
+  @apply w-full resize-none rounded-lg border border-purple/80 mt-2 bg-white px-4 py-4 font-dm-sans text-sm outline-none transition placeholder:text-ink/60 focus:border-light-purple focus:ring-2 focus:ring-purple/80;
+}
+
+@utility input-icon {
+  @apply pointer-events-none absolute right-4 top-8 text-purple/80 -translate-y-1/2;
+}
+
+@utility calendar-input {
+  @apply [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-0 [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:w-12 [&::-webkit-calendar-picker-indicator]:cursor-pointer
+}
+
+@layer base {
+  header {
+    @apply fixed top-0 w-full max-w-screen z-100 bg-purple/80 py-1;
+  }
+
+  h1 {
+    @apply text-5xl sm:text-7xl italic;
+  }
+
+  h2 {
+    @apply text-2xl text-ink font-dm-sans;
+  }
+  
+  h3 {
+    @apply text-lg text-purple font-dm-sans uppercase font-semibold;
+  }
+
+  h4 {
+    @apply text-2xl font-dm-sans font-semibold;
+  }
+}
+
+@layer components {
+  .navbar-block {
+    @apply container py-4 flex items-center justify-between;
+  }
+
+  .nav-link {
+    @apply text-[16px]! font-normal! text-ivory p-0!;
+  }
+
+  .hero {
+    @apply min-h-135 relative mt-21 sm:mt-19 flex flex-col justify-center bg-cover bg-center bg-no-repeat py-10;
+    background-image: url("/images/hero.png");
+  }
+
+  .hero::before {
+    content: "";
+    @apply absolute inset-0 bg-ivory/25;
+  }
+
+  .hero > * {
+    @apply relative z-10;
+  }
+
+  .hero-content {
+    @apply max-w-xl flex flex-col items-start gap-4;
+  }
+
+  .simple-text {
+    @apply text-[12px] sm:text-[16px] font-bold;
+  }
+
+  .divider {
+    @apply mt-2 h-0.5 w-18 bg-mid-purple;
+  }
+
+  .view-more {
+    @apply hidden items-center gap-1 text-sm text-mid-purple transition-colors hover:text-purple sm:flex;
+  }
+
+  /* Products by category */
+
+  .category-row {
+    @apply last:mb-0 mb-10;
+  }
+
+  .category-head {
+    @apply mb-6 flex justify-between
+  }
+
+  .products-row {
+    @apply grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 md:gap-4;
+  }
+
+  .product-card {
+    @apply overflow-hidden rounded-xl border border-mid-purple/30 bg-white transition-all duration-300 hover:bg-light-purple hover:shadow-md;
+  }
+
+  .product-card-image-box {
+    @apply relative aspect-square overflow-hidden;
+  }
+
+  .product-card-image-box {
+    @apply object-cover;
+  }
+  
+  .product-card-title {
+    @apply truncate text-sm font-semibold font-dm-sans;
+  }
+
+  .product-card-text {
+    @apply text-sm font-dm-sans my-2;
+  }
+
+  .colors-block {
+    @apply flex items-center gap-1.5;
+  }
+
+  .color-item {
+    @apply h-4 w-4 rounded-full border border-black/10;
+  }
+
+  /* About */
+
+  .about-bold-text {
+    @apply text-lg font-semibold font-dm-sans mt-6 mb-2;
+  }
+
+  /* Footer */
+
+  .social-menu {
+    @apply flex items-center gap-5;
+  }
+
+  /* Product Details */
+
+  .thumbnail {
+    @apply relative aspect-square w-full overflow-hidden rounded-lg bg-ivory transition-all duration-200;
+  }
+
+  .mobile-thumbnail {
+    @apply relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-ivory;
+  }
+
+  .thumbnail-selected {
+    @apply ring-2 ring-mid-purple ring-offset-1;
+  }
+
+  .thumbnail-not-selected {
+    @apply opacity-75 hover:opacity-100;
+  }
+
+  .main-image {
+    @apply relative aspect-square overflow-hidden rounded-xl bg-ivory;
+  }
+
+  .gallery-chevron {
+    @apply absolute top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-purple shadow-sm transition hover:bg-white cursor-pointer;
+  }
+
+  .data-item {
+    @apply flex items-center text-sm font-dm-sans my-1 gap-3;
+  }
+
+  /* Rental Modal */
+  
+  .dialog-content {
+    @apply w-full! max-w-2xl! overflow-hidden rounded-2xl border-0 bg-ivory p-0 shadow-2xl z-900!;
+  }
+
+  .dialog-close {
+    @apply absolute right-5 top-5 z-20 flex h-9 w-9 items-center justify-center rounded-full transition hover:bg-black/5 cursor-pointer;
+  }
+
+  .minus-plus-btn {
+    @apply flex h-full w-11 items-center justify-center transition text-purple/80 hover:bg-purple/10 disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  .qty-box {
+    @apply flex items-center overflow-hidden h-12 w-full rounded-lg border border-purple/80 mt-2 bg-white font-dm-sans text-sm outline-none transition placeholder:text-ink/60 focus:border-light-purple focus:ring-2 focus:ring-purple/80;;
+  }
+
+  .color-dropdown {
+    @apply absolute z-50 mt-1 w-full overflow-hidden rounded-md border border-black/10 bg-white shadow-lg;
+  }
+
+  .color-input {
+    @apply h-12 w-full flex items-center justify-between rounded-lg border border-purple/80 mt-2 bg-white px-4 font-dm-sans text-sm outline-none transition placeholder:text-ink/60 focus:border-light-purple focus:ring-2 focus:ring-purple/80;
+  }
+
+  .color-option {
+    @apply flex w-full items-center gap-3 px-4 py-2.5 text-left transition hover:bg-purple/10;
+  }
+
+  .color-ring {
+    @apply h-5 w-5 shrink-0 rounded-full border border-black/10;
+  }
+
+  .input-qty {
+    @apply h-full w-full border-x border-black/10 bg-transparent text-center outline-none appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none;
+  }
+}
+
+body {
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: var(--font-cormorant-garamond);
+}
