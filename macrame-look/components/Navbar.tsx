@@ -69,7 +69,7 @@ const Navbar = () => {
 
                     <SheetContent
                         side="right"
-                        className="w-screen! border-none max-w-none bg-purple px-8 pt-20 text-ivory shadow-2xl z-100"
+                        className="mobile-navbar"
                     >
                         {/* Logo */}
                         <div className="mb-14 flex justify-center">
@@ -79,6 +79,7 @@ const Navbar = () => {
                                 width={130}
                                 height={60}
                                 className="h-auto w-30 object-contain"
+                                loading="eager"
                             />
                         </div>
 

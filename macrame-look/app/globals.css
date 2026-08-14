@@ -92,6 +92,14 @@
     @apply text-[16px]! font-normal! text-ivory p-0!;
   }
 
+  .mobile-navbar {
+    @apply w-screen! border-none max-w-none bg-purple px-8 pt-20 text-ivory shadow-2xl z-100!;
+  }
+
+  .mobile-nav-link {
+    @apply flex items-center py-2 text-lg font-dm-sans tracking-wide text-ivory transition-all duration-300;
+  }
+
   .hero {
     @apply min-h-135 relative mt-21 sm:mt-19 flex flex-col justify-center bg-cover bg-center bg-no-repeat py-10;
     background-image: url("/images/hero.png");
