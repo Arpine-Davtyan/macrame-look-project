@@ -3,19 +3,9 @@
 import Link from "next/link";
 import { MenuIcon } from "lucide-react";
 
-import {
-    NavigationMenu,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 
-import {
-    Sheet,
-    SheetContent,
-    SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Image from "next/image";
 
 const menuItems = [
@@ -42,7 +32,7 @@ const Navbar = () => {
             </Link>
 
             {/* Desktop */}
-            <div className="hidden md:block">
+            <div className="hidden sm:block">
                 <NavigationMenu>
                     <NavigationMenuList className="gap-3">
                         {menuItems.map((item) => (
@@ -64,22 +54,51 @@ const Navbar = () => {
             {/* Mobile */}
             <div className="md:hidden">
                 <Sheet>
-                    <SheetTrigger className="p-2">
-                        <MenuIcon size={28} />
+                    <SheetTrigger>
+                        <button
+                            type="button"
+                            aria-label="Բացել մենյուն"
+                            className="p-2"
+                        >
+                            <MenuIcon
+                                size={28}
+                                className="text-ivory"
+                            />
+                        </button>
                     </SheetTrigger>
 
-                    <SheetContent side="right">
-                        <div className="flex flex-col gap-6 mt-10">
-                            {menuItems.map((item) => (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    className="text-lg"
-                                >
-                                    {item.name}
-                                </Link>
-                            ))}
+                    <SheetContent
+                        side="right"
+                        className="w-screen! border-none max-w-none bg-purple px-8 pt-20 text-ivory shadow-2xl z-100"
+                    >
+                        {/* Logo */}
+                        <div className="mb-14 flex justify-center">
+                            <Image
+                                src="/images/logo.png"
+                                alt="Macrame Look"
+                                width={130}
+                                height={60}
+                                className="h-auto w-30 object-contain"
+                            />
                         </div>
+
+                        {/* Navigation */}
+                        <nav className="flex flex-col">
+                            {menuItems.map((item, index) => (
+                                <div key={item.name}>
+                                    <Link
+                                        href={item.href}
+                                        className="flex items-center py-2 text-lg font-dm-sans tracking-wide text-ivory transition-all duration-300"
+                                    >
+                                        <span>{item.name}</span>
+                                    </Link>
+
+                                    {index < menuItems.length - 1 && (
+                                        <div className="h-px w-full bg-white/10" />
+                                    )}
+                                </div>
+                            ))}
+                        </nav>
                     </SheetContent>
                 </Sheet>
             </div>
