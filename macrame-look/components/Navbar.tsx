@@ -5,7 +5,7 @@ import { MenuIcon } from "lucide-react";
 
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import Image from "next/image";
 
 const menuItems = [
@@ -87,12 +87,14 @@ const Navbar = () => {
                         <nav className="flex flex-col">
                             {menuItems.map((item, index) => (
                                 <div key={item.name}>
-                                    <Link
-                                        href={item.href}
-                                        className="flex items-center py-2 text-lg font-dm-sans tracking-wide text-ivory transition-all duration-300"
-                                    >
-                                        <span>{item.name}</span>
-                                    </Link>
+                                    <SheetClose>
+                                        <Link
+                                            href={item.href}
+                                            className="mobile-nav-link"
+                                        >
+                                            <span>{item.name}</span>
+                                        </Link>
+                                    </SheetClose>
 
                                     {index < menuItems.length - 1 && (
                                         <div className="h-px w-full bg-white/10" />

@@ -97,7 +97,7 @@
   }
 
   .mobile-nav-link {
-    @apply flex items-center py-2 text-lg font-dm-sans tracking-wide text-ivory transition-all duration-300;
+    @apply flex items-center py-5 text-lg font-dm-sans tracking-wide text-ivory transition-all duration-300;
   }
 
   .hero {
