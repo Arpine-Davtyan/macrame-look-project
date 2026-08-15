@@ -17,13 +17,13 @@ const RentalModalSuccess = ({
                 />
             </div>
 
-            <h3 className="mt-5 font-serif text-3xl">
+            <h3 className="mt-5 font-serif text-2xl">
                 Հայտը ուղարկված է
             </h3>
 
-            <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-ink">
-                Շնորհակալություն։ Շուտով կապ կհաստատենք
-                Ձեզ հետ պատվերը հաստատելու համար։
+            <p className="mx-auto mt-3 text-sm leading-6 text-ink">
+                Շնորհակալություն։<br />
+                Շուտով կապ կհաստատենք Ձեզ հետ պատվերը հաստատելու համար։
             </p>
         </div>
     );
