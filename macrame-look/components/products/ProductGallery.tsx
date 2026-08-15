@@ -54,18 +54,13 @@ export default function ProductGallery({
                                         `${image.asset._ref}-${index}`
                                     }
                                     type="button"
-                                    onClick={() =>
-                                        setSelectedIndex(index)
-                                    }
+                                    onClick={() => setSelectedIndex(index)}
                                     aria-label={`Դիտել նկար ${index + 1}`}
                                     className={`
-                                        thumbnail
-                                        ${
-                                            isSelected
-                                                ? "thumbnail-selected"
-                                                : "thumbnail-not-selected"
-                                        }
-                                    `}
+                                        ${isSelected
+                                            ? "thumbnail-selected"
+                                            : "thumbnail-not-selected"
+                                        }`}
                                 >
                                     <Image
                                         src={urlFor(image).url()}
@@ -122,8 +117,8 @@ export default function ProductGallery({
             </div>
 
             {/* Mobile thumbnails */}
-            {images.length > 1 && (
-                <div className="mt-3 flex gap-2 overflow-x-auto pb-1 sm:hidden">
+            {images.length > 0 && (
+                <div className="mt-3 flex gap-2 shrink-0 h-16 sm:hidden">
                     {images.map((image, index) => {
                         const isSelected =
                             index === selectedIndex;
@@ -140,10 +135,9 @@ export default function ProductGallery({
                                 }
                                 className={`
                                     mobile-thumbnail
-                                    ${
-                                        isSelected
-                                            ? "thumbnail-selected"
-                                            : "thumbnail-not-selected"
+                                    ${isSelected
+                                        ? "thumbnail-selected"
+                                        : "thumbnail-not-selected"
                                     }
                                 `}
                             >

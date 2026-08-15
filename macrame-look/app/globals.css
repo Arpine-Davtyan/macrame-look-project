@@ -195,7 +195,7 @@
   }
 
   .mobile-thumbnail {
-    @apply relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-ivory;
+    @apply relative h-16 w-16 shrink-0 box-border overflow-hidden rounded-lg bg-ivory;
   }
 
   .thumbnail-selected {
