@@ -57,6 +57,10 @@
   @apply pointer-events-none absolute right-4 top-8 text-purple/80 -translate-y-1/2;
 }
 
+@utility calendar-icon {
+  @apply pointer-events-none absolute right-4 top-3 text-purple/80;
+}
+
 @utility calendar-input {
   @apply [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-0 [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:w-12 [&::-webkit-calendar-picker-indicator]:cursor-pointer
 }

@@ -1,10 +1,12 @@
-"use client";
-
 import { CalendarDays, CheckCircle2, User, Phone, Palette, Minus, Plus } from "lucide-react";
 import { useState } from "react";
 
 import type { RentalModalFormProps } from "@/lib/types/product";
 import { getColor, getColorName } from "@/lib/actions/product";
+
+import { Calendar } from "@/components/ui/calendar";
+
+import { format } from "date-fns";
 
 const RentalModalForm = ({
     rentalPrice,
@@ -15,25 +17,26 @@ const RentalModalForm = ({
     handleChange,
     handleSubmit,
 }: RentalModalFormProps) => {
-    const totalPrice = (rentalPrice ?? 0) * form.quantity;
-
+    const [dateOpen, setDateOpen] = useState(false);
     const [colorOpen, setColorOpen] = useState(false);
+
+    const totalPrice = (rentalPrice ?? 0) * form.quantity;
 
     const selectedColor = colors.find(
         (color) => getColorName(color) === form.color
     );
 
+    // Minimum rental date = today + 2 days
     const getMinDate = () => {
-        const today = new Date();
+        const date = new Date();
 
-        today.setDate(today.getDate() + 2);
+        date.setHours(0, 0, 0, 0);
+        date.setDate(date.getDate() + 2);
 
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, "0");
-        const day = String(today.getDate()).padStart(2, "0");
-
-        return `${year}-${month}-${day}`;
+        return date;
     };
+
+    const minDate = getMinDate();
 
     const handleQuantityChange = (quantity: number) => {
         const event = {
@@ -43,12 +46,49 @@ const RentalModalForm = ({
                     Math.min(
                         maxQuantity,
                         Math.max(minQuantity, quantity)
-                    )
+                    ),
                 ),
             },
         } as React.ChangeEvent<HTMLInputElement>;
 
         handleChange(event);
+    };
+
+    const handleDateSelect = (date: Date | undefined) => {
+        if (!date) return;
+
+        // Safety check:
+        // Never allow a date before minimum date
+        const selected = new Date(date);
+        selected.setHours(0, 0, 0, 0);
+
+        const minimum = new Date(minDate);
+        minimum.setHours(0, 0, 0, 0);
+
+        if (selected < minimum) {
+            return;
+        }
+
+        const year = selected.getFullYear();
+
+        const month = String(
+            selected.getMonth() + 1
+        ).padStart(2, "0");
+
+        const day = String(
+            selected.getDate()
+        ).padStart(2, "0");
+
+        const value = `${year}-${month}-${day}`;
+
+        handleChange({
+            target: {
+                name: "startDate",
+                value,
+            },
+        } as React.ChangeEvent<HTMLInputElement>);
+
+        setDateOpen(false);
     };
 
     return (
@@ -93,6 +133,7 @@ const RentalModalForm = ({
 
                 {/* Phone / Date */}
                 <div className="grid gap-4 grid-cols-2 sm:gap-5">
+                    {/* Phone */}
                     <div>
                         <label
                             htmlFor="phone"
@@ -121,37 +162,65 @@ const RentalModalForm = ({
                         </div>
                     </div>
 
-                    <div>
-                        <label
-                            htmlFor="startDate"
-                            className="form-label"
-                        >
+                    {/* Date */}
+                    <div className="relative">
+                        <label className="form-label">
                             Ամսաթիվ
                         </label>
 
-                        <div className="relative">
-                            <input
-                                id="startDate"
-                                name="startDate"
-                                type="date"
-                                required
-                                min={getMinDate()}
-                                value={form.startDate}
-                                onChange={handleChange}
-                                className="form-input calendar-input"
-                            />
+                        <button
+                            type="button"
+                            onClick={() =>
+                                setDateOpen((prev) => !prev)
+                            }
+                            className="form-input relative w-full text-left"
+                        >
+                            {form.startDate ? (
+                                format(
+                                    new Date(
+                                        `${form.startDate}T00:00:00`
+                                    ),
+                                    "dd.MM.yyyy"
+                                )
+                            ) : (
+                                <span className="opacity-60">
+                                    Ընտրել ամսաթիվը
+                                </span>
+                            )}
 
                             <CalendarDays
                                 size={20}
-                                strokeWidth={1.5}
-                                className="input-icon pointer-events-none"
+                                className="calendar-icon"
                             />
-                        </div>
+                        </button>
+
+                        {/* Calendar */}
+                        {dateOpen && (
+                            <div
+                                className=" absolute left-0 top-full z-999 mt-2 w-auto rounded-md border bg-white p-0 shadow-xl"
+                            >
+                                <Calendar
+                                    mode="single"
+                                    selected={
+                                        form.startDate
+                                            ? new Date(
+                                                `${form.startDate}T00:00:00`
+                                            )
+                                            : undefined
+                                    }
+                                    disabled={{
+                                        before: minDate,
+                                    }}
+                                    onSelect={handleDateSelect}
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
 
                 {/* Quantity / Color */}
                 <div className="grid gap-4 grid-cols-2 sm:gap-5">
+                    {/* Quantity */}
                     <div>
                         <label
                             htmlFor="quantity"
@@ -205,6 +274,7 @@ const RentalModalForm = ({
                         </div>
                     </div>
 
+                    {/* Color */}
                     <div className="relative">
                         <label className="form-label">
                             Գույն
@@ -257,7 +327,9 @@ const RentalModalForm = ({
                                     const colorValue =
                                         getColor(color);
 
-                                    if (!colorName) return null;
+                                    if (!colorName) {
+                                        return null;
+                                    }
 
                                     return (
                                         <button
@@ -355,7 +427,8 @@ const RentalModalForm = ({
                     />
 
                     <span className="mt-1">
-                        Մենք կապ կհաստատենք Ձեզ հետ վարձույթը հաստատելու համար
+                        Մենք կապ կհաստատենք Ձեզ հետ վարձույթը
+                        հաստատելու համար
                     </span>
                 </div>
             </form>
