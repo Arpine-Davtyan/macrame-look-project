@@ -57,6 +57,7 @@ export default function ProductGallery({
                                     onClick={() => setSelectedIndex(index)}
                                     aria-label={`Դիտել նկար ${index + 1}`}
                                     className={`
+                                        thumbnail 
                                         ${isSelected
                                             ? "thumbnail-selected"
                                             : "thumbnail-not-selected"

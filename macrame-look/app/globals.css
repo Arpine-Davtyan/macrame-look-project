@@ -34,7 +34,7 @@
 }
 
 @utility container {
-  @apply w-7xl max-w-full mx-auto px-4;
+  @apply w-7xl max-w-full mx-auto;
 }
 
 @utility btn {
@@ -67,7 +67,7 @@
 
 @layer base {
   header {
-    @apply fixed top-0 w-full max-w-screen z-100 bg-purple/80 py-1;
+    @apply fixed top-0 w-full max-w-screen z-100 bg-purple/80 py-1 px-4;
   }
 
   h1 {
@@ -221,7 +221,7 @@
   /* Rental Modal */
   
   .dialog-content {
-    @apply w-full! max-w-2xl! overflow-hidden rounded-2xl border-0 bg-ivory p-0 shadow-2xl z-900!;
+    @apply max-w-2xl! overflow-hidden rounded-2xl border border-purple/80 bg-ivory p-0 shadow-2xl z-900! w-[calc(100%-2rem)] max-h-[98vh] overflow-y-auto sm:w-full;
   }
 
   .dialog-close {

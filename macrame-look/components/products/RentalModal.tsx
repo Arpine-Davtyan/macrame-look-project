@@ -150,7 +150,7 @@ export default function RentalModal({
             >
                 <DialogContent
                     showCloseButton={false}
-                    className=" dialog-content w-[calc(100%-2rem)] max-h-[90vh] overflow-y-auto sm:w-full"
+                    className="dialog-content"
                 >
                     <button
                         type="button"
