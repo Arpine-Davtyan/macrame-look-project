@@ -155,6 +155,7 @@ export default function ProductGallery({
                                     sizes="64px"
                                     quality={90}
                                     className="object-cover object-center"
+                                    loading="eager"
                                 />
                             </button>
                         );

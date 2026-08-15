@@ -135,3 +135,9 @@ export type CreateOrderInput = {
     active?: boolean | null;
     order_status?: string | null;
 };
+
+export type Category = {
+    _id: string;
+    title: string;
+    value: string;
+};

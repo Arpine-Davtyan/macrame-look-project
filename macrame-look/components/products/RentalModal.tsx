@@ -8,10 +8,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import RentalModalSuccess from "./RentalModalSuccess";
 import RentalModalForm from "./RentalModalForm";
 
-import type {
-    RentalForm,
-    RentalModalProps,
-} from "@/lib/types/product";
+import type { RentalForm, RentalModalProps } from "@/lib/types/product";
 
 import { createOrder } from "@/lib/actions/orders";
 
@@ -161,13 +158,7 @@ export default function RentalModal({
             >
                 <DialogContent
                     showCloseButton={false}
-                    className="
-                        dialog-content
-                        w-[calc(100%-2rem)]
-                        max-h-[90vh]
-                        overflow-y-auto
-                        sm:w-full
-                    "
+                    className=" dialog-content w-[calc(100%-2rem)] max-h-[90vh] overflow-y-auto sm:w-full"
                 >
                     <button
                         type="button"

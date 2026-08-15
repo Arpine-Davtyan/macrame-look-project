@@ -101,7 +101,7 @@
   }
 
   .hero {
-    @apply min-h-135 relative mt-21 sm:mt-19 flex flex-col justify-center bg-cover bg-center bg-no-repeat py-10;
+    @apply min-h-135 relative flex flex-col justify-center bg-cover bg-center bg-no-repeat py-10;
     background-image: url("/images/hero.png");
   }
 

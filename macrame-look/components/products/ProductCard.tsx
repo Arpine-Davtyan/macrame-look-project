@@ -28,6 +28,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                             20vw
                         "
                         className="product-card-image"
+                        loading="eager"
                     />
                 )}
             </div>

@@ -29,9 +29,13 @@ export default function RootLayout({
       lang="en"
       className={`${cormorantGaramond.variable} ${DMSans.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-screen flex flex-col">
         <Header />
-        {children}
+
+        <main className="flex-1 mt-21 sm:mt-19 mb-10">
+          {children}
+        </main>
+
         <Footer />
       </body>
     </html>

@@ -1,3 +1,24 @@
+export const menuItems = [
+    { name: "Մեր Մասին", href: "/#about" },
+    { name: "Վարձույթ", href: "/products" },
+    { name: "Կապ", href: "/contact" },
+];
+
+export const socialMedia = [
+    {
+        icon: "instagram",
+        link: "https://www.instagram.com/macrame.look/"
+    },
+    {
+        icon: "tiktok",
+        link: "/"
+    },
+    {
+        icon: "telegram",
+        link: "https://t.me/macramelookme"
+    }
+]
+
 export const InfoItems = [
     {
         icon: "leaf",

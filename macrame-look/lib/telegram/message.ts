@@ -4,11 +4,13 @@ import { sendTelegramMessage } from "@/lib/actions/telegram";
 import { CreateOrderInput } from "../types/product";
 
 export async function sendOrderTelegram(data: CreateOrderInput) {
+  const domain = process.env.NEXT_PUBLIC_URL!;
+  
   const formattedDate = data.order_date
     ? new Date(`${data.order_date}T00:00:00`).toLocaleDateString("en-GB")
     : "";
     
-  const productUrl = `/products/${data.product_slug}`;
+  const productUrl = `${domain}/products/${data.product_slug}`;
 
   const text = `
 <b>🔔 Նոր վարձույթի հայտ</b>

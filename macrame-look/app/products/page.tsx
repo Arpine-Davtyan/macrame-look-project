@@ -1,20 +1,8 @@
 import { client } from "@/lib/sanity/client";
 
-import {
-    categoriesQuery,
-    productsQuery,
-    productsByCategoryQuery,
-} from "@/lib/sanity/queries";
-
+import { categoriesQuery, productsQuery, productsByCategoryQuery } from "@/lib/sanity/queries";
 import ProductCard from "@/components/products/ProductCard";
-
-import { Product } from "@/lib/types/product";
-
-type Category = {
-    _id: string;
-    title: string;
-    value: string;
-};
+import { Category, Product } from "@/lib/types/product";
 
 type ProductsPageProps = {
     searchParams: Promise<{
@@ -52,8 +40,8 @@ export default async function ProductsPage({
         : "Բոլորը";
 
     return (
-        <main className="container mx-auto mt-20">
-            <div className="my-3">
+        <div className="container mx-auto mt-10">
+            <div>
                 <h2>{title}</h2>
 
                 <div className="divider" />
@@ -75,6 +63,6 @@ export default async function ProductsPage({
                     </div>
                 )}
             </div>
-        </main>
+        </div>
     );
 }

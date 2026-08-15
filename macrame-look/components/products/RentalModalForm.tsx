@@ -1,14 +1,6 @@
 "use client";
 
-import {
-    CalendarDays,
-    CheckCircle2,
-    User,
-    Phone,
-    Palette,
-    Minus,
-    Plus,
-} from "lucide-react";
+import { CalendarDays, CheckCircle2, User, Phone, Palette, Minus, Plus } from "lucide-react";
 import { useState } from "react";
 
 import type { RentalModalFormProps } from "@/lib/types/product";
@@ -352,8 +344,7 @@ const RentalModalForm = ({
                     />
 
                     <span className="mt-1">
-                        Մենք կապ կհաստատենք Ձեզ հետ վարձույթը
-                        հաստատելու համար
+                        Մենք կապ կհաստատենք Ձեզ հետ վարձույթը հաստատելու համար
                     </span>
                 </div>
             </form>

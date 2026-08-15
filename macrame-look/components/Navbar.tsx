@@ -1,35 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { MenuIcon } from "lucide-react";
-
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
-
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
-import Image from "next/image";
-
-const menuItems = [
-    { name: "Մեր Մասին", href: "/#about" },
-    { name: "Վարձույթ", href: "/products" },
-    { name: "Կապ", href: "/contact" },
-];
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { MenuIcon } from "lucide-react";
+import Logo from "./Logo";
+import { menuItems } from "@/lib/constants/info";
 
 const Navbar = () => {
+    const [open, setOpen] = useState(false);
+
     return (
         <div className="navbar-block">
             {/* Logo */}
-            <Link
-                href="/"
-                className="text-xl font-semibold tracking-wide"
-            >
-                <Image
-                    src="/images/logo.png"
-                    alt="logo"
-                    width={110}
-                    height={50}
-                    loading="eager"
-                />
-            </Link>
+            <Logo />
 
             {/* Desktop */}
             <div className="hidden sm:block">
@@ -53,18 +38,19 @@ const Navbar = () => {
 
             {/* Mobile */}
             <div className="md:hidden">
-                <Sheet>
-                    <SheetTrigger>
-                        <button
-                            type="button"
-                            aria-label="Բացել մենյուն"
-                            className="p-2"
-                        >
-                            <MenuIcon
-                                size={28}
-                                className="text-ivory"
-                            />
-                        </button>
+                <Sheet
+                    open={open}
+                    onOpenChange={setOpen}
+                >
+                    <SheetTrigger
+                        type="button"
+                        aria-label="Բացել մենյուն"
+                        className="p-2"
+                    >
+                        <MenuIcon
+                            size={28}
+                            className="text-ivory"
+                        />
                     </SheetTrigger>
 
                     <SheetContent
@@ -73,28 +59,20 @@ const Navbar = () => {
                     >
                         {/* Logo */}
                         <div className="mb-14 flex justify-center">
-                            <Image
-                                src="/images/logo.png"
-                                alt="Macrame Look"
-                                width={130}
-                                height={60}
-                                className="h-auto w-30 object-contain"
-                                loading="eager"
-                            />
+                            <Logo />
                         </div>
 
                         {/* Navigation */}
                         <nav className="flex flex-col">
                             {menuItems.map((item, index) => (
                                 <div key={item.name}>
-                                    <SheetClose>
-                                        <Link
-                                            href={item.href}
-                                            className="mobile-nav-link"
-                                        >
-                                            <span>{item.name}</span>
-                                        </Link>
-                                    </SheetClose>
+                                    <Link
+                                        href={item.href}
+                                        className="mobile-nav-link"
+                                        onClick={() => setOpen(false)}
+                                    >
+                                        <span>{item.name}</span>
+                                    </Link>
 
                                     {index < menuItems.length - 1 && (
                                         <div className="h-px w-full bg-white/10" />

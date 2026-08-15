@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-
 import { client } from "@/lib/sanity/client";
 
 import ProductGallery from "@/components/products/ProductGallery";
@@ -35,7 +34,7 @@ export default async function ProductDetailsPage({
     }
 
     return (
-        <main className="container mx-auto mt-30 mb-10">
+        <div className="container mx-auto mt-10">
             <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 xl:gap-20">
                 <div className="min-w-0">
                     <ProductGallery
@@ -117,6 +116,6 @@ export default async function ProductDetailsPage({
                     )}
                 </div>
             </div>
-        </main>
+        </div>
     );
 }
