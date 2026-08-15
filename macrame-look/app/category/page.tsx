@@ -92,7 +92,7 @@ export default async function ProductsByCategory() {
                             <div className="mt-5 flex justify-center sm:hidden">
                                 <Link
                                     href={`/products?category=${category.value}`}
-                                    className="flex items-center gap-1 text-xs text-light-purple"
+                                    className="flex items-center gap-1 text-xs text-mid-purple"
                                 >
                                     Դիտել բոլորը
                                     <ArrowRightIcon size={13} />

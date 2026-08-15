@@ -34,7 +34,7 @@ export default async function ProductDetailsPage({
     }
 
     return (
-        <div className="container mx-auto mt-10">
+        <div className="container mx-auto mt-10 px-4">
             <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:gap-14 xl:gap-20">
                 <div className="min-w-0">
                     <ProductGallery

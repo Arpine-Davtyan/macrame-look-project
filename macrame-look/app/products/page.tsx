@@ -40,7 +40,7 @@ export default async function ProductsPage({
         : "Բոլորը";
 
     return (
-        <div className="container mx-auto mt-10">
+        <div className="container mx-auto mt-10 px-4">
             <div>
                 <h2>{title}</h2>
 
