@@ -112,8 +112,6 @@ export type RentalModalFormProps = {
     handleSubmit: (
         e: React.FormEvent<HTMLFormElement>
     ) => void;
-
-    getMinDate: () => string;
 };
 
 export type CreateOrderInput = {

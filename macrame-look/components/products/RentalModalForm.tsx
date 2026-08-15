@@ -14,7 +14,6 @@ const RentalModalForm = ({
     form,
     handleChange,
     handleSubmit,
-    getMinDate,
 }: RentalModalFormProps) => {
     const totalPrice = (rentalPrice ?? 0) * form.quantity;
 
@@ -23,6 +22,18 @@ const RentalModalForm = ({
     const selectedColor = colors.find(
         (color) => getColorName(color) === form.color
     );
+
+    const getMinDate = () => {
+        const today = new Date();
+
+        today.setDate(today.getDate() + 2);
+
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+        const day = String(today.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+    };
 
     const handleQuantityChange = (quantity: number) => {
         const event = {

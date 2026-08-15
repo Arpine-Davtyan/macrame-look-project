@@ -37,14 +37,6 @@ export default function RentalModal({
         message: "",
     });
 
-    const getMinDate = () => {
-        const date = new Date();
-
-        date.setDate(date.getDate() + 2);
-
-        return date.toISOString().split("T")[0];
-    };
-
     const handleChange = (
         e: React.ChangeEvent<
             HTMLInputElement |
@@ -181,7 +173,6 @@ export default function RentalModal({
                             form={form}
                             handleChange={handleChange}
                             handleSubmit={handleSubmit}
-                            getMinDate={getMinDate}
                         />
                     ) : (
                         <RentalModalSuccess
