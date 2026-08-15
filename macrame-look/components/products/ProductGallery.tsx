@@ -15,8 +15,8 @@ export default function ProductGallery({
 
     if (!images?.length) {
         return (
-            <div className="flex aspect-[4/3] items-center justify-center rounded-2xl bg-[#FFFFF0]">
-                <span className="text-sm text-gray-500">
+            <div className="flex aspect-4/3 items-center justify-center rounded-2xl bg-ivory">
+                <span className="text-sm text-ink">
                     Նկար չկա
                 </span>
             </div>
@@ -42,11 +42,10 @@ export default function ProductGallery({
             {/* Desktop Gallery */}
             <div className="flex gap-3">
                 {/* Thumbnails */}
-                {images.length > 1 && (
+                {images.length > 0 && (
                     <div className="hidden w-16 shrink-0 flex-col gap-3 sm:flex">
                         {images.map((image, index) => {
-                            const isSelected =
-                                index === selectedIndex;
+                            const isSelected = index === selectedIndex;
 
                             return (
                                 <button
@@ -90,7 +89,7 @@ export default function ProductGallery({
                             alt={title}
                             fill
                             priority
-                            sizes="(max-width: 640px) 100vw, 50vw"
+                            sizes="(max-width: 500px) 100vw, 50vw"
                             quality={100}
                             className="object-cover object-center transition-all duration-300"
                         />
@@ -143,8 +142,8 @@ export default function ProductGallery({
                                     mobile-thumbnail
                                     ${
                                         isSelected
-                                            ? "ring-2 ring-mid-purple"
-                                            : "opacity-70"
+                                            ? "thumbnail-selected"
+                                            : "thumbnail-not-selected"
                                     }
                                 `}
                             >
