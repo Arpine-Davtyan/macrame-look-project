@@ -68,11 +68,7 @@ const ProductGallery = ({
                                 aria-label={`Դիտել նկար ${index + 1}`}
                                 className={`
                                     thumbnail
-                                    ${
-                                        isSelected
-                                            ? "thumbnail-selected"
-                                            : "thumbnail-not-selected"
-                                    }
+                                    ${isSelected ? "thumbnail-selected" : "thumbnail-not-selected"}
                                 `}
                             >
                                 <Image
@@ -135,7 +131,7 @@ const ProductGallery = ({
                 </div>
             </div>
 
-            <div className="mt-3 flex h-16 shrink-0 gap-2 overflow-x-auto sm:hidden">
+            <div className="mt-3 flex h-16 shrink-0 gap-2 sm:hidden">
                 {images.map((image, index) => {
                     const isSelected = index === selectedIndex;
 
@@ -143,13 +139,10 @@ const ProductGallery = ({
                         <button
                             key={image._key ?? `${image.asset._ref}-${index}`}
                             type="button"
-                            onClick={() =>
-                                setSelectedIndex(index)
-                            }
+                            onClick={() => setSelectedIndex(index)}
                             aria-label={`Դիտել նկար ${index + 1}`}
                             className={`
                                 mobile-thumbnail
-                                shrink-0
                                 ${isSelected ? "thumbnail-selected" : "thumbnail-not-selected"}
                             `}
                         >
