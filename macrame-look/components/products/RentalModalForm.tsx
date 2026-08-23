@@ -196,10 +196,10 @@ const RentalModalForm = ({
                                 id="fullName"
                                 name="fullName"
                                 type="text"
-                                required
                                 value={form.fullName}
                                 onChange={handleChange}
                                 className="form-input"
+                                required
                             />
 
                             <User
@@ -248,9 +248,7 @@ const RentalModalForm = ({
                         <button
                             type="button"
                             onClick={() =>
-                                setStartDateOpen(
-                                    (prev) => !prev
-                                )
+                                setStartDateOpen((prev) => !prev)
                             }
                             className="form-input relative w-full text-left"
                         >
@@ -272,7 +270,7 @@ const RentalModalForm = ({
                         </button>
 
                         {startDateOpen && (
-                            <div className="absolute right-0 top-full z-999 mt-1 w-auto rounded-md border border-purple/80 bg-white p-0 shadow-xl">
+                            <div className="absolute left-0 top-full z-999 mt-1 w-auto rounded-md border border-purple/80 bg-white p-0 shadow-xl">
                                 <Calendar
                                     mode="single"
                                     selected={
