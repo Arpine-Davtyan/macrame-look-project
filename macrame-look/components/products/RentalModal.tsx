@@ -2,21 +2,19 @@
 
 import { useState } from "react";
 import { X } from "lucide-react";
-
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 import RentalModalSuccess from "./RentalModalSuccess";
 import RentalModalForm from "./RentalModalForm";
 
 import type { RentalForm, RentalModalProps } from "@/lib/types/product";
-
 import { createOrder } from "@/lib/actions/orders";
 
 export default function RentalModal({
     productId,
     productTitle,
     productSlug,
-    rentalPrice,
+    rentalPrices,
     minQuantity,
     maxQuantity,
     productSize,
@@ -32,9 +30,11 @@ export default function RentalModal({
         fullName: "",
         phone: "",
         startDate: "",
+        endDate: "",
         quantity: minQuantity,
         color: "",
         message: "",
+        totalPrice: 0
     });
 
     const handleChange = (
@@ -55,12 +55,63 @@ export default function RentalModal({
         }));
     };
 
+    const getRentalPrice = () => {
+        if (
+            !form.startDate ||
+            !form.endDate
+        ) {
+            return null;
+        }
+
+        const start = new Date(form.startDate);
+        const end = new Date(form.endDate);
+
+        const difference = end.getTime() - start.getTime();
+
+        const days = Math.ceil(difference / (1000 * 60 * 60 * 24));
+
+        if (days <= 0) {
+            return null;
+        }
+
+        if (days <= 3) {
+            return (
+                rentalPrices.oneToThreeDays ?? null
+            );
+        }
+
+        if (days <= 5) {
+            return (
+                rentalPrices.threeToFiveDays ?? null
+            );
+        }
+
+        return (
+            rentalPrices.fivePlusDays ?? null
+        );
+    };
+
     const handleSubmit = async (
-        e: React.FormEvent<HTMLFormElement>
+        e: React.FormEvent<HTMLFormElement>,
+        totalPrice: number
     ) => {
         e.preventDefault();
 
         if (loading) return;
+
+        if (!form.startDate || !form.endDate) {
+            return;
+        }
+
+        const start = new Date(form.startDate);
+        const end = new Date(form.endDate);
+
+        if (end <= start) {
+            console.error("End date must be after start date");
+            return;
+        }
+
+        const rentalPrice = getRentalPrice();
 
         setLoading(true);
 
@@ -68,7 +119,8 @@ export default function RentalModal({
             const result = await createOrder({
                 project: "macrame-look",
                 type: "rent",
-                order_date: form.startDate,
+                start_date: form.startDate,
+                end_date: form.endDate,
                 client_name: form.fullName,
                 client_phone: form.phone,
                 client_message: form.message,
@@ -78,11 +130,12 @@ export default function RentalModal({
                 product_color: form.color || null,
                 product_size: productSize || null,
                 product_qty: form.quantity,
-                order_note: null,
+                order_note: form.message,
                 rental_price: rentalPrice,
                 product_material: productMaterial || null,
                 active: true,
                 order_status: "new",
+                total_price: totalPrice,
             });
 
             if (!result.success) {
@@ -112,9 +165,11 @@ export default function RentalModal({
             fullName: "",
             phone: "",
             startDate: "",
+            endDate: "",
             quantity: minQuantity,
             color: "",
             message: "",
+            totalPrice: 0
         });
     };
 
@@ -166,11 +221,12 @@ export default function RentalModal({
 
                     {!submitted ? (
                         <RentalModalForm
-                            rentalPrice={rentalPrice}
+                            rentalPrices={rentalPrices}
                             minQuantity={minQuantity}
                             maxQuantity={maxQuantity}
                             colors={colors}
                             form={form}
+                            loading={loading}
                             handleChange={handleChange}
                             handleSubmit={handleSubmit}
                         />

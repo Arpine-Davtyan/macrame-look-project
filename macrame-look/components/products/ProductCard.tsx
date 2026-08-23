@@ -1,11 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
+
 import { urlFor } from "@/lib/sanity/image";
 import { Product } from "@/lib/types/product";
 import ProductColors from "./ProductColors";
 
-const ProductCard = ({ product }: { product: Product }) => {
-    const image = product.images?.[0];
+const ProductCard = ({
+    product,
+}: {
+    product: Product;
+}) => {
+    const image = product.mainImage;
+
+    const formatPrice = (price: number) => {
+        return price
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
 
     return (
         <Link
@@ -16,10 +27,11 @@ const ProductCard = ({ product }: { product: Product }) => {
             <div className="product-card-image-box">
                 {image && (
                     <Image
-                        src={urlFor(image).width(700).height(700).url()}
-                        alt={
-                            product.title
-                        }
+                        src={urlFor(image)
+                            .width(700)
+                            .height(700)
+                            .url()}
+                        alt={product.title}
                         fill
                         sizes="
                             (max-width: 640px) 50vw,
@@ -33,27 +45,24 @@ const ProductCard = ({ product }: { product: Product }) => {
                 )}
             </div>
 
-            {/* Content */}
             <div className="px-3 py-3">
                 <p className="product-card-title">
                     {product.title}
                 </p>
-
-                {product.rentalPrice !== undefined && (
+                {product.rentalPrices?.oneToThreeDays !== undefined && (
                     <p className="product-card-text">
-                        {product.rentalPrice.toLocaleString(
-                            "hy-AM"
-                        )}{" "}
-                        ֏ / օր
+                        {formatPrice(product.rentalPrices.oneToThreeDays)} ֏ / օր
                     </p>
                 )}
 
                 <div className="mt-4">
-                    <ProductColors colors={product.colors} />
+                    <ProductColors
+                        colors={product.colors}
+                    />
                 </div>
             </div>
         </Link>
-    )
-}
+    );
+};
 
-export default ProductCard
+export default ProductCard;

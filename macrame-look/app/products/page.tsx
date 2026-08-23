@@ -19,9 +19,7 @@ export default async function ProductsPage({
         category
             ? client.fetch<Product[]>(
                 productsByCategoryQuery,
-                {
-                    category,
-                }
+                { category }
             )
             : client.fetch<Product[]>(
                 productsQuery
@@ -34,8 +32,7 @@ export default async function ProductsPage({
 
     const title = category
         ? categories.find(
-            (item) =>
-                item.value === category
+            (item) => item.value === category
         )?.title ?? category
         : "Բոլորը";
 
@@ -43,7 +40,6 @@ export default async function ProductsPage({
         <div className="container mx-auto mt-10 px-4">
             <div>
                 <h2>{title}</h2>
-
                 <div className="divider" />
 
                 {products.length === 0 ? (

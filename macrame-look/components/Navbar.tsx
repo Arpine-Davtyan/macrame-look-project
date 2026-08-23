@@ -13,7 +13,6 @@ const Navbar = () => {
 
     return (
         <div className="navbar-block">
-            {/* Logo */}
             <Logo />
 
             {/* Desktop */}

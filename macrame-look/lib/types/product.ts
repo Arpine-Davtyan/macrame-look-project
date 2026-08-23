@@ -1,3 +1,5 @@
+import type React from "react";
+
 export type StandardColor = {
     _id: string;
     title: string;
@@ -7,27 +9,23 @@ export type StandardColor = {
     } | null;
 };
 
+export type ProductImage = {
+    _key?: string;
+    asset: {
+        _ref: string;
+    };
+};
+
 export type ProductColor = {
     _key?: string;
-
     colorType?: "standard" | "custom";
-
     standardColor?: StandardColor | null;
-
     customName?: string;
-
     customValue?: {
         hex?: string;
         alpha?: number;
     } | null;
-};
-
-export type ProductImage = {
-    _key?: string;
-
-    asset: {
-        _ref: string;
-    };
+    images?: ProductImage[];
 };
 
 export type ProductGalleryProps = {
@@ -35,40 +33,42 @@ export type ProductGalleryProps = {
     title: string;
 };
 
+export type RentalPrices = {
+    oneToThreeDays?: number;
+    threeToFiveDays?: number;
+    fivePlusDays?: number;
+};
+
+export type Category = {
+    _id: string;
+    title: string;
+    value: string;
+};
+
 export type Product = {
     _id: string;
     title: string;
-
     slug: {
         current: string;
     };
-
+    mainImage: ProductImage;
     description?: string;
-    rentalPrice?: number;
+    rentalPrices: RentalPrices;
     minQuantity?: number;
     maxQuantity?: number;
     dimensions?: string;
     material?: string;
-
-    category?: {
-        _id: string;
-        title: string;
-        value: string;
-    } | null;
-
+    category?: Category | null;
     available?: boolean;
     featured?: boolean;
-
     colors?: ProductColor[];
-
-    images: ProductImage[];
 };
 
 export type RentalModalProps = {
     productId: string;
     productTitle: string;
     productSlug: string;
-    rentalPrice?: number;
+    rentalPrices: RentalPrices;
     minQuantity: number;
     maxQuantity: number;
     productSize?: string;
@@ -79,28 +79,22 @@ export type RentalModalProps = {
 
 export type RentalForm = {
     fullName: string;
-
     phone: string;
-
     startDate: string;
-
+    endDate: string;
     quantity: number;
-
     color: string;
-
     message: string;
+    totalPrice: number;
 };
 
 export type RentalModalFormProps = {
-    rentalPrice?: number;
-
+    rentalPrices: RentalPrices;
     minQuantity: number;
     maxQuantity: number;
-
     colors?: ProductColor[];
-
+    loading?: boolean;
     form: RentalForm;
-
     handleChange: (
         e: React.ChangeEvent<
             HTMLInputElement |
@@ -108,16 +102,17 @@ export type RentalModalFormProps = {
             HTMLSelectElement
         >
     ) => void;
-
     handleSubmit: (
-        e: React.FormEvent<HTMLFormElement>
+        e: React.FormEvent<HTMLFormElement>,
+        totalPrice: number
     ) => void;
 };
 
 export type CreateOrderInput = {
     project?: string | null;
     type?: string | null;
-    order_date?: string | null;
+    start_date?: string | null;
+    end_date?: string | null;
     client_name?: string | null;
     client_phone?: string | null;
     client_message?: string | null;
@@ -128,14 +123,9 @@ export type CreateOrderInput = {
     product_size?: string | null;
     product_qty?: number | null;
     order_note?: string | null;
-    rental_price?: number;
+    rental_price?: number | null;
     product_material?: string | null;
     active?: boolean | null;
     order_status?: string | null;
-};
-
-export type Category = {
-    _id: string;
-    title: string;
-    value: string;
+    total_price?: number | null;
 };

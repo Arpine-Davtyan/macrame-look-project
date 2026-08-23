@@ -1,11 +1,6 @@
 "use client";
 
-import {
-    CalendarDotsIcon,
-    DressIcon,
-    HeartIcon,
-    ShoppingBagIcon,
-} from "@phosphor-icons/react";
+import { CalendarDotsIcon, DressIcon, HeartIcon, ShoppingBagIcon } from "@phosphor-icons/react";
 
 import { StepItems } from "../lib/constants/info";
 

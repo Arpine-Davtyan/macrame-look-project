@@ -173,7 +173,11 @@
   }
 
   .color-item {
-    @apply h-4 w-4 rounded-full border border-black/10;
+    @apply h-6 w-6 rounded-full border border-black/10 cursor-pointer;
+  }
+
+  .color-item-selected {
+    @apply border-3 border-purple/80;
   }
 
   /* About */

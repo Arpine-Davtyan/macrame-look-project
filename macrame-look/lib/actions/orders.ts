@@ -7,14 +7,14 @@ import { sendOrderTelegram } from "../telegram/message";
 
 export type UpdateOrderInput = Partial<CreateOrderInput>;
 
-// CREATE
 export async function createOrder(data: CreateOrderInput) {
     const { data: order, error } = await supabase
         .from("orders")
         .insert({
             project: data.project ?? null,
             type: data.type ?? null,
-            order_date: data.order_date ?? null,
+            start_date: data.start_date ?? null,
+            end_date: data.end_date ?? null,
             client_name: data.client_name ?? null,
             client_phone: data.client_phone ?? null,
             client_message: data.client_message ?? null,
@@ -29,6 +29,7 @@ export async function createOrder(data: CreateOrderInput) {
             product_material: data.product_material ?? null,
             active: data.active ?? true,
             order_status: data.order_status ?? null,
+            total_price: data.total_price ?? null,
         })
         .select()
         .single();
@@ -64,8 +65,6 @@ export async function createOrder(data: CreateOrderInput) {
     };
 }
 
-
-// GET ALL
 export async function getOrders() {
     const { data, error } = await supabase
         .from("orders")
@@ -90,8 +89,6 @@ export async function getOrders() {
     };
 }
 
-
-// GET BY ID
 export async function getOrderById(id: string) {
     const { data, error } = await supabase
         .from("orders")
@@ -118,8 +115,6 @@ export async function getOrderById(id: string) {
     };
 }
 
-
-// UPDATE
 export async function updateOrder(
     id: string,
     data: UpdateOrderInput
@@ -149,8 +144,6 @@ export async function updateOrder(
     };
 }
 
-
-// DELETE
 export async function deleteOrder(id: string) {
     const { error } = await supabase
         .from("orders")
@@ -174,8 +167,6 @@ export async function deleteOrder(id: string) {
     };
 }
 
-
-// TOGGLE ACTIVE
 export async function toggleOrderActive(
     id: string,
     active: boolean
@@ -205,8 +196,6 @@ export async function toggleOrderActive(
     };
 }
 
-
-// UPDATE STATUS
 export async function updateOrderStatus(
     id: string,
     order_status: string

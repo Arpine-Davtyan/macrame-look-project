@@ -2,6 +2,7 @@ export const colorsQuery = `
     *[_type == "standardColor"] | order(title asc) {
         _id,
         title,
+
         value {
             hex,
             alpha
@@ -24,21 +25,37 @@ export const productsQuery = `
     ] | order(_createdAt desc) {
         _id,
         title,
-        slug,
+
+        slug {
+            current
+        },
+
         description,
-        rentalPrice,
+
+        mainImage {
+            _key,
+            asset
+        },
+
+        rentalPrices {
+            oneToThreeDays,
+            threeToFiveDays,
+            fivePlusDays
+        },
+
         minQuantity,
         maxQuantity,
         dimensions,
         material,
-        category,
+
+        category-> {
+            _id,
+            title,
+            value
+        },
+
         available,
         featured,
-
-        images[] {
-            _key,
-            asset
-        },
 
         colors[] {
             _key,
@@ -47,6 +64,7 @@ export const productsQuery = `
             standardColor-> {
                 _id,
                 title,
+
                 value {
                     hex,
                     alpha
@@ -58,6 +76,11 @@ export const productsQuery = `
             customValue {
                 hex,
                 alpha
+            },
+
+            images[] {
+                _key,
+                asset
             }
         }
     }
@@ -71,9 +94,24 @@ export const productsByCategoryQuery = `
     ] | order(_createdAt desc) {
         _id,
         title,
-        slug,
+
+        slug {
+            current
+        },
+
         description,
-        rentalPrice,
+
+        mainImage {
+            _key,
+            asset
+        },
+
+        rentalPrices {
+            oneToThreeDays,
+            threeToFiveDays,
+            fivePlusDays
+        },
+
         minQuantity,
         maxQuantity,
         dimensions,
@@ -88,11 +126,6 @@ export const productsByCategoryQuery = `
         available,
         featured,
 
-        images[] {
-            _key,
-            asset
-        },
-
         colors[] {
             _key,
             colorType,
@@ -100,6 +133,7 @@ export const productsByCategoryQuery = `
             standardColor-> {
                 _id,
                 title,
+
                 value {
                     hex,
                     alpha
@@ -111,6 +145,11 @@ export const productsByCategoryQuery = `
             customValue {
                 hex,
                 alpha
+            },
+
+            images[] {
+                _key,
+                asset
             }
         }
     }
@@ -123,21 +162,37 @@ export const productQuery = `
     ][0] {
         _id,
         title,
-        slug,
+
+        slug {
+            current
+        },
+
         description,
-        rentalPrice,
+
+        mainImage {
+            _key,
+            asset
+        },
+
+        rentalPrices {
+            oneToThreeDays,
+            threeToFiveDays,
+            fivePlusDays
+        },
+
         minQuantity,
         maxQuantity,
         dimensions,
         material,
-        category,
+
+        category-> {
+            _id,
+            title,
+            value
+        },
+
         available,
         featured,
-
-        images[] {
-            _key,
-            asset
-        },
 
         colors[] {
             _key,
@@ -146,6 +201,7 @@ export const productQuery = `
             standardColor-> {
                 _id,
                 title,
+
                 value {
                     hex,
                     alpha
@@ -157,6 +213,11 @@ export const productQuery = `
             customValue {
                 hex,
                 alpha
+            },
+
+            images[] {
+                _key,
+                asset
             }
         }
     }
@@ -170,8 +231,22 @@ export const featuredProductsQuery = `
     ] | order(_createdAt desc) {
         _id,
         title,
-        slug,
-        rentalPrice,
+
+        slug {
+            current
+        },
+
+        mainImage {
+            _key,
+            asset
+        },
+
+        rentalPrices {
+            oneToThreeDays,
+            threeToFiveDays,
+            fivePlusDays
+        },
+
         minQuantity,
         maxQuantity,
 
@@ -183,11 +258,6 @@ export const featuredProductsQuery = `
 
         available,
         featured,
-
-        images[] {
-            _key,
-            asset
-        },
 
         colors[] {
             _key,
@@ -207,6 +277,11 @@ export const featuredProductsQuery = `
             customValue {
                 hex,
                 alpha
+            },
+
+            images[] {
+                _key,
+                asset
             }
         }
     }

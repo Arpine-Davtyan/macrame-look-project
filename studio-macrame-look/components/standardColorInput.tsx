@@ -1,11 +1,5 @@
 import React from "react";
-import {
-    Card,
-    Flex,
-    Stack,
-    Text,
-    Button,
-} from "@sanity/ui";
+import { Card, Flex, Stack, Text, Button } from "@sanity/ui";
 import { set, unset, useClient } from "sanity";
 import type { ReferenceInputProps } from "sanity";
 
@@ -25,14 +19,8 @@ export function StandardColorInput(
         onChange,
     } = props;
 
-    const client = useClient({
-        apiVersion: "2025-01-01",
-    });
-
-    const [colors, setColors] = React.useState<
-        StandardColor[]
-    >([]);
-
+    const client = useClient({ apiVersion: "2025-01-01" });
+    const [colors, setColors] = React.useState<StandardColor[]>([]);
     const [open, setOpen] = React.useState(false);
 
     React.useEffect(() => {
@@ -55,8 +43,6 @@ export function StandardColorInput(
 
     return (
         <Stack space={2}>
-            {/* Selected color */}
-
             <Button
                 mode="ghost"
                 padding={3}
@@ -75,23 +61,17 @@ export function StandardColorInput(
                                 height: 24,
                                 minWidth: 24,
                                 borderRadius: "50%",
-                                backgroundColor:
-                                    selected?.value?.hex ||
-                                    "#e5e5e5",
-                                border:
-                                    "1px solid #ccc",
+                                backgroundColor: selected?.value?.hex || "#e5e5e5",
+                                border: "1px solid #ccc",
                             }}
                         />
                     )}
 
                     <Text size={1}>
-                        {selected?.title ||
-                            "Ընտրեք գույն"}
+                        {selected?.title || "Ընտրեք գույն"}
                     </Text>
                 </Flex>
             </Button>
-
-            {/* Dropdown */}
 
             {open && (
                 <Card
@@ -121,10 +101,8 @@ export function StandardColorInput(
                                     onClick={() => {
                                         onChange(
                                             set({
-                                                _type:
-                                                    "reference",
-                                                _ref:
-                                                    color._id,
+                                                _type: "reference",
+                                                _ref: color._id,
                                             })
                                         );
 
@@ -140,22 +118,14 @@ export function StandardColorInput(
                                                 width: 22,
                                                 height: 22,
                                                 minWidth: 22,
-                                                borderRadius:
-                                                    "50%",
-                                                backgroundColor:
-                                                    color
-                                                        .value
-                                                        ?.hex ||
-                                                    "#e5e5e5",
-                                                border:
-                                                    "1px solid #ccc",
+                                                borderRadius: "50%",
+                                                backgroundColor: color.value ?.hex || "#e5e5e5",
+                                                border: "1px solid #ccc",
                                             }}
                                         />
 
                                         <Text size={1}>
-                                            {
-                                                color.title
-                                            }
+                                            {color.title}
                                         </Text>
                                     </Flex>
                                 </Button>

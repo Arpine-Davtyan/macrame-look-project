@@ -1,44 +1,77 @@
+"use client";
+
 import { CalendarDays, CheckCircle2, User, Phone, Palette, Minus, Plus } from "lucide-react";
 import { useState } from "react";
 
 import type { RentalModalFormProps } from "@/lib/types/product";
+
 import { getColor, getColorName } from "@/lib/actions/product";
-
 import { Calendar } from "@/components/ui/calendar";
-
 import { format } from "date-fns";
 
 const RentalModalForm = ({
-    rentalPrice,
+    rentalPrices,
     minQuantity,
     maxQuantity,
     colors = [],
     form,
+    loading = false,
     handleChange,
     handleSubmit,
 }: RentalModalFormProps) => {
-    const [dateOpen, setDateOpen] = useState(false);
+    const [startDateOpen, setStartDateOpen] = useState(false);
+    const [endDateOpen, setEndDateOpen] = useState(false);
     const [colorOpen, setColorOpen] = useState(false);
 
-    const totalPrice = (rentalPrice ?? 0) * form.quantity;
+    const getRentalDays = () => {
+        if (
+            !form.startDate ||
+            !form.endDate
+        ) {
+            return 0;
+        }
 
-    const selectedColor = colors.find(
-        (color) => getColorName(color) === form.color
-    );
+        const start = new Date(`${form.startDate}T00:00:00`);
+        const end = new Date(`${form.endDate}T00:00:00`);
 
-    // Minimum rental date = today + 2 days
+        const difference = end.getTime() - start.getTime();
+        return Math.ceil(difference / (1000 * 60 * 60 * 24));
+    };
+
+    const rentalDays = getRentalDays();
+
+    const rentalPrice =
+        rentalDays > 0
+            ? rentalDays <= 3
+                ? rentalPrices.oneToThreeDays
+                : rentalDays <= 5
+                    ? rentalPrices.threeToFiveDays
+                    : rentalPrices.fivePlusDays
+            : undefined;
+
+    const totalPrice = (rentalPrice ?? 0) * form.quantity * rentalDays;
+
+    const selectedColor =
+        colors.find(
+            (color) => getColorName(color) === form.color
+        );
+
     const getMinDate = () => {
         const date = new Date();
 
         date.setHours(0, 0, 0, 0);
-        date.setDate(date.getDate() + 2);
+        date.setDate(
+            date.getDate() + 2
+        );
 
         return date;
     };
 
     const minDate = getMinDate();
 
-    const handleQuantityChange = (quantity: number) => {
+    const handleQuantityChange = (
+        quantity: number
+    ) => {
         const event = {
             target: {
                 name: "quantity",
@@ -46,7 +79,7 @@ const RentalModalForm = ({
                     Math.min(
                         maxQuantity,
                         Math.max(minQuantity, quantity)
-                    ),
+                    )
                 ),
             },
         } as React.ChangeEvent<HTMLInputElement>;
@@ -54,14 +87,23 @@ const RentalModalForm = ({
         handleChange(event);
     };
 
-    const handleDateSelect = (date: Date | undefined) => {
+    const dateToInputValue = (
+        date: Date
+    ) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+    };
+
+    const handleStartDateSelect = (
+        date: Date | undefined
+    ) => {
         if (!date) return;
 
-        // Safety check:
-        // Never allow a date before minimum date
         const selected = new Date(date);
         selected.setHours(0, 0, 0, 0);
-
         const minimum = new Date(minDate);
         minimum.setHours(0, 0, 0, 0);
 
@@ -69,17 +111,7 @@ const RentalModalForm = ({
             return;
         }
 
-        const year = selected.getFullYear();
-
-        const month = String(
-            selected.getMonth() + 1
-        ).padStart(2, "0");
-
-        const day = String(
-            selected.getDate()
-        ).padStart(2, "0");
-
-        const value = `${year}-${month}-${day}`;
+        const value = dateToInputValue(selected);
 
         handleChange({
             target: {
@@ -88,52 +120,96 @@ const RentalModalForm = ({
             },
         } as React.ChangeEvent<HTMLInputElement>);
 
-        setDateOpen(false);
+        if (
+            form.endDate &&
+            form.endDate < value
+        ) {
+            handleChange({
+                target: {
+                    name: "endDate",
+                    value: "",
+                },
+            } as React.ChangeEvent<HTMLInputElement>);
+        }
+
+        setStartDateOpen(false);
+    };
+
+    const handleEndDateSelect = (
+        date: Date | undefined
+    ) => {
+        if (!date) return;
+
+        const selected = new Date(date);
+        selected.setHours(0, 0, 0, 0);
+        const minimum = new Date(minDate);
+        minimum.setHours(0, 0, 0, 0);
+
+        if (selected < minimum) {
+            return;
+        }
+
+        if (form.startDate) {
+            const start = new Date(
+                `${form.startDate}T00:00:00`
+            );
+
+            if (selected <= start) {
+                return;
+            }
+        }
+
+        const value = dateToInputValue(selected);
+
+        handleChange({
+            target: {
+                name: "endDate",
+                value,
+            },
+        } as React.ChangeEvent<HTMLInputElement>);
+
+        setEndDateOpen(false);
     };
 
     return (
         <div className="px-4 py-4 sm:px-6">
             <div className="mb-3 text-center">
                 <h4>Վարձույթի Հայտ</h4>
-
                 <div className="divider m-auto my-3" />
             </div>
 
             <form
-                onSubmit={handleSubmit}
+                onSubmit={(e) => handleSubmit(e, totalPrice)}
                 className="space-y-4"
             >
-                {/* Name */}
-                <div>
-                    <label
-                        htmlFor="fullName"
-                        className="form-label"
-                    >
-                        Անուն Ազգանուն
-                    </label>
-
-                    <div className="relative">
-                        <input
-                            id="fullName"
-                            name="fullName"
-                            type="text"
-                            required
-                            value={form.fullName}
-                            onChange={handleChange}
-                            className="form-input"
-                        />
-
-                        <User
-                            size={20}
-                            strokeWidth={1.5}
-                            className="input-icon"
-                        />
-                    </div>
-                </div>
-
-                {/* Phone / Date */}
                 <div className="grid gap-4 grid-cols-2 sm:gap-5">
-                    {/* Phone */}
+                    <div>
+                        <label
+                            htmlFor="fullName"
+                            className="form-label"
+                        >
+                            Անուն Ազգանուն
+                        </label>
+
+                        <div className="relative">
+                            <input
+                                id="fullName"
+                                name="fullName"
+                                type="text"
+                                required
+                                value={form.fullName}
+                                onChange={handleChange}
+                                className="form-input"
+                            />
+
+                            <User
+                                size={20}
+                                strokeWidth={1.5}
+                                className="input-icon"
+                            />
+                        </div>
+                    </div>
+
                     <div>
                         <label
                             htmlFor="phone"
@@ -161,29 +237,32 @@ const RentalModalForm = ({
                             />
                         </div>
                     </div>
+                </div>
 
-                    {/* Date */}
+                <div className="grid gap-4 grid-cols-2 sm:gap-5">
                     <div className="relative">
                         <label className="form-label">
-                            Ամսաթիվ
+                            Սկզբի ամսաթիվ
                         </label>
 
                         <button
                             type="button"
                             onClick={() =>
-                                setDateOpen((prev) => !prev)
+                                setStartDateOpen(
+                                    (prev) => !prev
+                                )
                             }
                             className="form-input relative w-full text-left"
                         >
                             {form.startDate ? (
                                 format(
-                                    new Date(
-                                        `${form.startDate}T00:00:00`
-                                    ),
+                                    new Date(`${form.startDate}T00:00:00`),
                                     "dd.MM.yyyy"
                                 )
                             ) : (
-                                <span className="opacity-60">Ընտրել</span>
+                                <span className="opacity-60">
+                                    Ընտրել
+                                </span>
                             )}
 
                             <CalendarDays
@@ -192,33 +271,78 @@ const RentalModalForm = ({
                             />
                         </button>
 
-                        {/* Calendar */}
-                        {dateOpen && (
-                            <div
-                                className="absolute right-0 top-full z-999 mt-1 w-auto rounded-md border border-purple/80 bg-white p-0 shadow-xl"
-                            >
+                        {startDateOpen && (
+                            <div className="absolute right-0 top-full z-999 mt-1 w-auto rounded-md border border-purple/80 bg-white p-0 shadow-xl">
                                 <Calendar
                                     mode="single"
                                     selected={
                                         form.startDate
+                                            ? new Date(`${form.startDate}T00:00:00`)
+                                            : undefined
+                                    }
+                                    disabled={{ before: minDate }}
+                                    onSelect={ handleStartDateSelect }
+                                />
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="relative">
+                        <label className="form-label">
+                            Ավարտի ամսաթիվ
+                        </label>
+
+                        <button
+                            type="button"
+                            onClick={() =>
+                                setEndDateOpen((prev) => !prev)
+                            }
+                            className="form-input relative w-full text-left"
+                        >
+                            {form.endDate ? (
+                                format(
+                                    new Date(`${form.endDate}T00:00:00`),
+                                    "dd.MM.yyyy"
+                                )
+                            ) : (
+                                <span className="opacity-60">
+                                    Ընտրել
+                                </span>
+                            )}
+
+                            <CalendarDays
+                                size={20}
+                                className="calendar-icon"
+                            />
+                        </button>
+
+                        {endDateOpen && (
+                            <div className="absolute right-0 top-full z-999 mt-1 w-auto rounded-md border border-purple/80 bg-white p-0 shadow-xl">
+                                <Calendar
+                                    mode="single"
+                                    selected={
+                                        form.endDate
                                             ? new Date(
-                                                `${form.startDate}T00:00:00`
+                                                `${form.endDate}T00:00:00`
                                             )
                                             : undefined
                                     }
                                     disabled={{
-                                        before: minDate,
+                                        before:
+                                            form.startDate
+                                                ? new Date(`${form.startDate}T00:00:00`)
+                                                : minDate,
                                     }}
-                                    onSelect={handleDateSelect}
+                                    onSelect={
+                                        handleEndDateSelect
+                                    }
                                 />
                             </div>
                         )}
                     </div>
                 </div>
 
-                {/* Quantity / Color */}
                 <div className="grid gap-4 grid-cols-2 sm:gap-5">
-                    {/* Quantity */}
                     <div>
                         <label
                             htmlFor="quantity"
@@ -230,14 +354,8 @@ const RentalModalForm = ({
                         <div className="qty-box">
                             <button
                                 type="button"
-                                onClick={() =>
-                                    handleQuantityChange(
-                                        form.quantity - 1
-                                    )
-                                }
-                                disabled={
-                                    form.quantity <= minQuantity
-                                }
+                                onClick={() => handleQuantityChange(form.quantity - 1)}
+                                disabled={form.quantity <= minQuantity}
                                 className="minus-plus-btn"
                             >
                                 <Minus size={16} />
@@ -251,20 +369,14 @@ const RentalModalForm = ({
                                 max={maxQuantity}
                                 value={form.quantity}
                                 onChange={handleChange}
-                                required
                                 className="input-qty"
+                                required
                             />
 
                             <button
                                 type="button"
-                                onClick={() =>
-                                    handleQuantityChange(
-                                        form.quantity + 1
-                                    )
-                                }
-                                disabled={
-                                    form.quantity >= maxQuantity
-                                }
+                                onClick={() => handleQuantityChange(form.quantity + 1)}
+                                disabled={form.quantity >= maxQuantity}
                                 className="minus-plus-btn"
                             >
                                 <Plus size={16} />
@@ -272,7 +384,6 @@ const RentalModalForm = ({
                         </div>
                     </div>
 
-                    {/* Color */}
                     <div className="relative">
                         <label className="form-label">
                             Գույն
@@ -280,9 +391,7 @@ const RentalModalForm = ({
 
                         <button
                             type="button"
-                            onClick={() =>
-                                setColorOpen((prev) => !prev)
-                            }
+                            onClick={() => setColorOpen((prev) => !prev)}
                             className="color-input"
                         >
                             <span className="flex min-w-0 items-center gap-3">
@@ -290,12 +399,7 @@ const RentalModalForm = ({
                                     <>
                                         <span
                                             className="color-ring shrink-0"
-                                            style={{
-                                                backgroundColor:
-                                                    getColor(
-                                                        selectedColor
-                                                    ),
-                                            }}
+                                            style={{backgroundColor: getColor(selectedColor)}}
                                         />
 
                                         <span className="truncate">
@@ -303,7 +407,9 @@ const RentalModalForm = ({
                                         </span>
                                     </>
                                 ) : (
-                                    <span className="opacity-60">Ընտրել</span>
+                                    <span className="opacity-60">
+                                        Ընտրել
+                                    </span>
                                 )}
                             </span>
 
@@ -316,53 +422,55 @@ const RentalModalForm = ({
 
                         {colorOpen && (
                             <div className="color-dropdown">
-                                {colors.map((color, index) => {
-                                    const colorName =
-                                        getColorName(color);
+                                {colors.map(
+                                    (
+                                        color,
+                                        index
+                                    ) => {
+                                        const colorName = getColorName(color);
+                                        const colorValue = getColor(color);
 
-                                    const colorValue =
-                                        getColor(color);
+                                        if (
+                                            !colorName
+                                        ) {
+                                            return null;
+                                        }
 
-                                    if (!colorName) {
-                                        return null;
-                                    }
+                                        return (
+                                            <button
+                                                key={`${colorName}-${index}`}
+                                                type="button"
+                                                onClick={() => {
+                                                    handleChange(
+                                                        {
+                                                            target: {
+                                                                name: "color",
+                                                                value: colorName,
+                                                            },
+                                                        } as React.ChangeEvent<HTMLInputElement>
+                                                    );
 
-                                    return (
-                                        <button
-                                            key={`${colorName}-${index}`}
-                                            type="button"
-                                            onClick={() => {
-                                                handleChange({
-                                                    target: {
-                                                        name: "color",
-                                                        value: colorName,
-                                                    },
-                                                } as React.ChangeEvent<HTMLInputElement>);
-
-                                                setColorOpen(false);
-                                            }}
-                                            className="color-option"
-                                        >
-                                            <span
-                                                className="color-ring shrink-0"
-                                                style={{
-                                                    backgroundColor:
-                                                        colorValue,
+                                                    setColorOpen(false);
                                                 }}
-                                            />
+                                                className="color-option"
+                                            >
+                                                <span
+                                                    className="color-ring shrink-0"
+                                                    style={{backgroundColor: colorValue}}
+                                                />
 
-                                            <span className="font-dm-sans text-sm">
-                                                {colorName}
-                                            </span>
-                                        </button>
-                                    );
-                                })}
+                                                <span className="font-dm-sans text-sm">
+                                                    {colorName}
+                                                </span>
+                                            </button>
+                                        );
+                                    }
+                                )}
                             </div>
                         )}
                     </div>
                 </div>
 
-                {/* Message */}
                 <div>
                     <label
                         htmlFor="message"
@@ -381,40 +489,46 @@ const RentalModalForm = ({
                     />
                 </div>
 
-                {/* Total Price */}
-                {rentalPrice !== undefined && (
-                    <div className="flex items-center justify-between gap-4 rounded-lg bg-purple/20 px-4 py-3">
+                {rentalPrice !== undefined && rentalDays > 0 && (
+                    <div className="flex items-end justify-between gap-4 rounded-lg bg-purple/20 px-4 py-3">
                         <div className="min-w-0">
                             <p className="font-dm-sans text-sm">
                                 Ընդհանուր գին
                             </p>
 
+                            {rentalDays > 0 && (
+                                <div className="font-dm-sans text-sm opacity-60">
+                                    Վարձույթի տևողություն՝ {rentalDays} օր
+                                </div>
+                            )}
+
                             <p className="font-dm-sans text-xs opacity-60">
-                                {rentalPrice.toLocaleString(
-                                    "hy-AM"
-                                )}{" "}
-                                ֏ × {form.quantity} հատ
+                                {rentalPrice.toLocaleString("hy-AM")} ֏ × 
+                                {form.quantity} հատ × 
+                                {rentalDays} օր
                             </p>
                         </div>
 
                         <p className="shrink-0 font-dm-sans text-lg font-semibold">
-                            {totalPrice.toLocaleString(
-                                "hy-AM"
-                            )}{" "}
-                            ֏
+                            {totalPrice.toLocaleString("hy-AM")} ֏
                         </p>
                     </div>
                 )}
 
-                {/* Submit */}
                 <button
                     type="submit"
                     className="btn w-full"
+                    disabled={
+                        !form.startDate ||
+                        !form.endDate ||
+                        loading
+                    }
                 >
-                    Հաստատել
+                    {loading
+                        ? "Ուղարկվում է..."
+                        : "Հաստատել"}
                 </button>
 
-                {/* Info */}
                 <div className="flex-center gap-2 pt-1 text-center text-xs">
                     <CheckCircle2
                         size={17}
@@ -423,8 +537,7 @@ const RentalModalForm = ({
                     />
 
                     <span className="mt-1">
-                        Մենք կապ կհաստատենք Ձեզ հետ վարձույթը
-                        հաստատելու համար
+                        Մենք կապ կհաստատենք Ձեզ հետ վարձույթը հաստատելու համար
                     </span>
                 </div>
             </form>

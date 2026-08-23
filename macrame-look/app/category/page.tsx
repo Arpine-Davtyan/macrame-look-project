@@ -2,14 +2,8 @@ import Link from "next/link";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { client } from "@/lib/sanity/client";
 import { categoriesQuery, featuredProductsQuery } from "@/lib/sanity/queries";
-import { Product } from "@/lib/types/product";
+import { Category, Product } from "@/lib/types/product";
 import ProductCard from "@/components/products/ProductCard";
-
-type Category = {
-    _id: string;
-    title: string;
-    value: string;
-};
 
 export default async function ProductsByCategory() {
     const [products, categories] = await Promise.all([
@@ -17,9 +11,7 @@ export default async function ProductsByCategory() {
             featuredProductsQuery,
             {},
             {
-                next: {
-                    revalidate: 60,
-                },
+                next: { revalidate: 60 },
             }
         ),
 
@@ -27,9 +19,7 @@ export default async function ProductsByCategory() {
             categoriesQuery,
             {},
             {
-                next: {
-                    revalidate: 60,
-                },
+                next: { revalidate: 60 },
             }
         ),
     ]);
@@ -55,7 +45,6 @@ export default async function ProductsByCategory() {
                             key={category._id}
                             className="category-row"
                         >
-                            {/* Category heading */}
                             <div className="category-head">
                                 <div>
                                     <h2>{category.title}</h2>
@@ -72,12 +61,10 @@ export default async function ProductsByCategory() {
                                 </Link>
                             </div>
 
-                            {/* Products */}
                             <div className="products-row">
                                 {categoryProducts
                                     .filter(
-                                        (product) =>
-                                            product.category?.value === category.value
+                                        (product) => product.category?.value === category.value
                                     )
                                     .slice(0, 5)
                                     .map((product) => (
@@ -88,7 +75,6 @@ export default async function ProductsByCategory() {
                                     ))}
                             </div>
 
-                            {/* Mobile */}
                             <div className="mt-5 flex justify-center sm:hidden">
                                 <Link
                                     href={`/products?category=${category.value}`}
