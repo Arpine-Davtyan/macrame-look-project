@@ -19,28 +19,31 @@ export async function sendOrderTelegram(data: CreateOrderInput) {
   const productUrl = `${domain}/products/${data.product_slug}`;
 
   const text = `
-    <b>🔔 Նոր վարձույթի հայտ</b>
+  <b>🔔 Նոր վարձույթի հայտ</b>
 
-    <b>Ապրանք:</b> ${data.product_title ?? ""}
-    <b>Գին:</b> ${data.rental_price != null
-          ? `${data.rental_price.toLocaleString("hy-AM")} ֏ / օր`
-          : ""
-        }
+  <b>Ապրանք:</b> ${data.product_title ?? ""}
+  <b>Գին:</b> ${data.rental_price != null
+        ? `${data.rental_price.toLocaleString("hy-AM")} ֏ / օր`
+        : ""
+      }
 
-    📦 ${data.product_qty ?? ""} հատ
-    🎨 ${data.product_color ?? ""}
-    📏 ${data.product_size ?? ""}
+  📦 ${data.product_qty ?? ""} հատ
+  🎨 ${data.product_color ?? ""}
+  📏 ${data.product_size ?? ""}
 
-    👤 ${data.client_name ?? ""}
-    📞 ${data.client_phone ?? ""}
-    📅 ${dateRange}
+  👤 ${data.client_name ?? ""}
+  📞 ${data.client_phone ?? ""}
+  📅 ${dateRange}
 
-    💰 ${data.total_price}
+  💰 ${data.total_price != null
+        ? `${data.total_price.toLocaleString("hy-AM")} ֏ / օր`
+        : ""
+      }
 
-    <b>Նամակ:</b>
-    ${data.client_message || ""}
+  <b>Նամակ:</b>
+  ${data.client_message || ""}
 
-    <a href="${productUrl}">Դիտել ապրանքը</a>
+  <a href="${productUrl}">Դիտել ապրանքը</a>
   `;
 
   return sendTelegramMessage({
