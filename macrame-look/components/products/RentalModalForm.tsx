@@ -188,7 +188,7 @@ const RentalModalForm = ({
                             htmlFor="fullName"
                             className="form-label"
                         >
-                            Անուն Ազգանուն
+                            Անուն Ազգանուն *
                         </label>
 
                         <div className="relative">
@@ -215,7 +215,7 @@ const RentalModalForm = ({
                             htmlFor="phone"
                             className="form-label"
                         >
-                            Հեռախոս
+                            Հեռախոս *
                         </label>
 
                         <div className="relative">
@@ -242,7 +242,7 @@ const RentalModalForm = ({
                 <div className="grid gap-4 grid-cols-2 sm:gap-5">
                     <div className="relative">
                         <label className="form-label">
-                            Սկզբի ամսաթիվ
+                            Սկզբի ամսաթիվ *
                         </label>
 
                         <button
@@ -287,7 +287,7 @@ const RentalModalForm = ({
 
                     <div className="relative">
                         <label className="form-label">
-                            Ավարտի ամսաթիվ
+                            Ավարտի ամսաթիվ *
                         </label>
 
                         <button
@@ -346,7 +346,7 @@ const RentalModalForm = ({
                             htmlFor="quantity"
                             className="form-label"
                         >
-                            Քանակ
+                            Քանակ *
                         </label>
 
                         <div className="qty-box">
@@ -384,7 +384,7 @@ const RentalModalForm = ({
 
                     <div className="relative">
                         <label className="form-label">
-                            Գույն
+                            Գույն *
                         </label>
 
                         <button
