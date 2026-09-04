@@ -36,7 +36,7 @@ export async function sendOrderTelegram(data: CreateOrderInput) {
   📅 ${dateRange}
 
   💰 ${data.total_price != null
-        ? `${data.total_price.toLocaleString("hy-AM")} ֏ / օր`
+        ? `${data.total_price.toLocaleString("hy-AM")} ֏`
         : ""
       }
 
