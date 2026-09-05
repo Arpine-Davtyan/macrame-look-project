@@ -22,6 +22,9 @@ const RentalModalForm = ({
     const [startDateOpen, setStartDateOpen] = useState(false);
     const [endDateOpen, setEndDateOpen] = useState(false);
     const [colorOpen, setColorOpen] = useState(false);
+    const [startDateError, setStartDateError] = useState(false);
+    const [endDateError, setEndDateError] = useState(false);
+    const [colorError, setColorError] = useState(false);
 
     const getRentalDays = () => {
         if (
@@ -132,6 +135,7 @@ const RentalModalForm = ({
             } as React.ChangeEvent<HTMLInputElement>);
         }
 
+        setStartDateError(false);
         setStartDateOpen(false);
     };
 
@@ -168,7 +172,41 @@ const RentalModalForm = ({
             },
         } as React.ChangeEvent<HTMLInputElement>);
 
+        setEndDateError(false);
         setEndDateOpen(false);
+    };
+
+    const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        const formElement = e.currentTarget;
+
+        if (!form.startDate) {
+            setStartDateError(true);
+        }
+
+        if (!form.endDate) {
+            setEndDateError(true);
+        }
+
+        if (!form.color) {
+            setColorError(true);
+        }
+
+        if (!formElement.checkValidity()) {
+            e.preventDefault();
+            formElement.reportValidity();
+            return;
+        }
+
+        if (
+            !form.startDate ||
+            !form.endDate ||
+            !form.color
+        ) {
+            e.preventDefault();
+            return;
+        }
+
+        handleSubmit(e, totalPrice);
     };
 
     return (
@@ -179,7 +217,8 @@ const RentalModalForm = ({
             </div>
 
             <form
-                onSubmit={(e) => handleSubmit(e, totalPrice)}
+                onSubmit={handleFormSubmit}
+                noValidate
                 className="space-y-4"
             >
                 <div className="grid gap-4 grid-cols-2 sm:gap-5">
@@ -198,7 +237,7 @@ const RentalModalForm = ({
                                 type="text"
                                 value={form.fullName}
                                 onChange={handleChange}
-                                className="form-input"
+                                className="form-input user-invalid:border-red-500!"
                                 required
                             />
 
@@ -227,7 +266,7 @@ const RentalModalForm = ({
                                 value={form.phone}
                                 onChange={handleChange}
                                 placeholder="+374XXXXXXXX"
-                                className="form-input"
+                                className="form-input user-invalid:border-red-500!"
                             />
 
                             <Phone
@@ -250,7 +289,7 @@ const RentalModalForm = ({
                             onClick={() =>
                                 setStartDateOpen((prev) => !prev)
                             }
-                            className="form-input relative w-full text-left"
+                            className={`form-input relative w-full text-left ${startDateError ? "border-red-500!" : ""}`}
                         >
                             {form.startDate ? (
                                 format(
@@ -279,7 +318,7 @@ const RentalModalForm = ({
                                             : undefined
                                     }
                                     disabled={{ before: minDate }}
-                                    onSelect={ handleStartDateSelect }
+                                    onSelect={handleStartDateSelect}
                                 />
                             </div>
                         )}
@@ -295,7 +334,7 @@ const RentalModalForm = ({
                             onClick={() =>
                                 setEndDateOpen((prev) => !prev)
                             }
-                            className="form-input relative w-full text-left"
+                            className={`form-input relative w-full text-left ${endDateError ? "border-red-500!" : ""}`}
                         >
                             {form.endDate ? (
                                 format(
@@ -367,7 +406,7 @@ const RentalModalForm = ({
                                 max={maxQuantity}
                                 value={form.quantity}
                                 onChange={handleChange}
-                                className="input-qty"
+                                className="input-qty user-invalid:border-red-500!"
                                 required
                             />
 
@@ -390,14 +429,14 @@ const RentalModalForm = ({
                         <button
                             type="button"
                             onClick={() => setColorOpen((prev) => !prev)}
-                            className="color-input"
+                            className={`color-input ${colorError ? "border-red-500!" : ""}`}
                         >
                             <span className="flex min-w-0 items-center gap-3">
                                 {selectedColor ? (
                                     <>
                                         <span
                                             className="color-ring shrink-0"
-                                            style={{backgroundColor: getColor(selectedColor)}}
+                                            style={{ backgroundColor: getColor(selectedColor) }}
                                         />
 
                                         <span className="truncate">
@@ -448,13 +487,14 @@ const RentalModalForm = ({
                                                         } as React.ChangeEvent<HTMLInputElement>
                                                     );
 
+                                                    setColorError(false);
                                                     setColorOpen(false);
                                                 }}
                                                 className="color-option"
                                             >
                                                 <span
                                                     className="color-ring shrink-0"
-                                                    style={{backgroundColor: colorValue}}
+                                                    style={{ backgroundColor: colorValue }}
                                                 />
 
                                                 <span className="font-dm-sans text-sm">
@@ -501,8 +541,8 @@ const RentalModalForm = ({
                             )}
 
                             <p className="font-dm-sans text-xs opacity-60">
-                                {rentalPrice.toLocaleString("hy-AM")} ֏ × 
-                                {form.quantity} հատ × 
+                                {rentalPrice.toLocaleString("hy-AM")} ֏ ×
+                                {form.quantity} հատ ×
                                 {rentalDays} օր
                             </p>
                         </div>
@@ -516,11 +556,7 @@ const RentalModalForm = ({
                 <button
                     type="submit"
                     className="btn w-full"
-                    disabled={
-                        !form.startDate ||
-                        !form.endDate ||
-                        loading
-                    }
+                    disabled={loading}
                 >
                     {loading
                         ? "Ուղարկվում է..."

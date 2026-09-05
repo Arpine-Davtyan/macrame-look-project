@@ -256,7 +256,7 @@ export const productType = defineType({
                             components: {
                                 input: ColorImagesInput,
                             },
-                            validation: ( Rule ) => Rule.required().min(1),
+                            validation: (Rule) => Rule.optional(),
                         },
                     ],
                     preview: {

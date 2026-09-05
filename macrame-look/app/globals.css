@@ -46,11 +46,11 @@
 }
 
 @utility form-input {
-  @apply h-12 w-full rounded-lg border border-purple/80 mt-2 bg-white px-4 pr-12 font-dm-sans text-sm outline-none transition placeholder:text-ink/60 focus:border-light-purple focus:ring-2 focus:ring-purple/80;
+  @apply h-12 w-full rounded-lg border border-purple/80 mt-2 bg-white px-4 pr-12 font-dm-sans text-sm outline-none transition placeholder:text-ink/60;
 }
 
 @utility form-textarea {
-  @apply w-full resize-none rounded-lg border border-purple/80 mt-2 bg-white px-4 py-4 font-dm-sans text-sm outline-none transition placeholder:text-ink/60 focus:border-light-purple focus:ring-2 focus:ring-purple/80;
+  @apply w-full resize-none rounded-lg border border-purple/80 mt-2 bg-white px-4 py-4 font-dm-sans text-sm outline-none transition placeholder:text-ink/60;
 }
 
 @utility input-icon {
@@ -237,7 +237,7 @@
   }
 
   .qty-box {
-    @apply flex items-center overflow-hidden h-12 w-full rounded-lg border border-purple/80 mt-2 bg-white font-dm-sans text-sm outline-none transition placeholder:text-ink/60 focus:border-light-purple focus:ring-2 focus:ring-purple/80;;
+    @apply flex items-center overflow-hidden h-12 w-full rounded-lg border border-purple/80 mt-2 bg-white font-dm-sans text-sm outline-none transition placeholder:text-ink/60;
   }
 
   .color-dropdown {
@@ -245,7 +245,7 @@
   }
 
   .color-input {
-    @apply h-12 w-full flex items-center justify-between rounded-lg border border-purple/80 mt-2 bg-white px-4 font-dm-sans text-sm outline-none transition placeholder:text-ink/60 focus:border-light-purple focus:ring-2 focus:ring-purple/80;
+    @apply h-12 w-full flex items-center justify-between rounded-lg border border-purple/80 mt-2 bg-white px-4 font-dm-sans text-sm outline-none transition placeholder:text-ink/60;
   }
 
   .color-option {
