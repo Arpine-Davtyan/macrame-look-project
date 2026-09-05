@@ -16,18 +16,22 @@ export default function ProductDetails({
 }: ProductDetailsProps) {
     const [selectedColor, setSelectedColor] = useState<ProductColor | null>(null);
 
-    const colorImages = selectedColor?.images ?? [];
+    const [galleryImages, setGalleryImages] = useState(
+        product.mainImage ? [product.mainImage] : []
+    );
 
-    const galleryImages =
-        colorImages.length > 0
-            ? colorImages
-            : product.mainImage
-                ? [product.mainImage]
-                : [];
+    const handleColorSelect = (color: ProductColor) => {
+        setSelectedColor(color);
+
+        if (color.images?.length) {
+            setGalleryImages(color.images);
+        }
+    };
 
     const formatPrice = (price: number) => {
         return new Intl.NumberFormat("en-US").format(price);
     };
+
     return (
         <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:gap-14 xl:gap-20">
 
@@ -52,14 +56,18 @@ export default function ProductDetails({
 
                         {product.rentalPrices.threeToFiveDays !== undefined && (
                             <p className="simple-text text-xs font-dm-sans font-normal">
-                                <span className="font-semibold mr-1">4-5 օր: </span>
+                                <span className="font-semibold mr-1">
+                                    4-5 օր:
+                                </span>
                                 {formatPrice(product.rentalPrices.threeToFiveDays)} ֏ / օր
                             </p>
                         )}
 
                         {product.rentalPrices.fivePlusDays !== undefined && (
                             <p className="simple-text text-xs font-dm-sans font-normal">
-                                <span className="font-semibold mr-1">5-ից ավելի օր: </span>
+                                <span className="font-semibold mr-1">
+                                    5-ից ավելի օր:
+                                </span>
                                 {formatPrice(product.rentalPrices.fivePlusDays)} ֏ / օր
                             </p>
                         )}
@@ -72,8 +80,8 @@ export default function ProductDetails({
 
                         <ProductColors
                             colors={product.colors}
-                            selectedColor={ selectedColor }
-                            onSelectColor={ setSelectedColor }
+                            selectedColor={selectedColor}
+                            onSelectColor={handleColorSelect}
                         />
                     </div>
                 )}
