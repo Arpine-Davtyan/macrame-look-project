@@ -11,7 +11,7 @@ export const socialMedia = [
     },
     {
         icon: "tiktok",
-        link: "/"
+        link: "https://www.tiktok.com/@helun.macrame?_r=1&_t=ZS-99WrxhE8xJC"
     },
     {
         icon: "telegram",

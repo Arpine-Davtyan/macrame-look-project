@@ -18,7 +18,7 @@ const RentalModalSuccess = ({
             </div>
 
             <h3 className="mt-5 font-serif text-2xl">
-                Հայտը ուղարկված է
+                Հայտն ուղարկված է
             </h3>
 
             <p className="mx-auto mt-3 text-sm leading-6 text-ink">
