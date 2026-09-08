@@ -17,24 +17,22 @@ const About = () => {
                     </div>
 
                     <div>
-                        <h2>About Us</h2>
+                        <h2>Մեր Մասին</h2>
 
                         <div className="divider"></div>
 
                         <p className="about-bold-text">
-                            Macrame Look was born from a love for handmade
-                            beauty and sustainable living.
+                            Մակրամե՝ քո ամենահիշվող պահերի համար
                         </p>
 
-                        <p className="simple-text font-dm-sans text-lg font-normal">
-                            We believe you don’t have to own everything to feel
-                            special. Our mission is to make handcrafted macrame
-                            pieces accessible for every occasion through a
-                            simple and mindful rental experience. We believe
-                            you don’t have to own everything to feel special.
-                            Our mission is to make handcrafted macrame pieces
-                            accessible for every occasion through a simple and
-                            mindful rental experience.
+                        <p className="simple-text font-dm-sans text-sm font-normal">
+                            Յուրաքանչյուր ստեղծագործող մարդ իր ներսում կրում է մի աշխարհ՝ լցված երազանքներով, զգացողություններով ու մտքերով, որոնք ժամանակի ընթացքում դառնում են գաղափարներ, իսկ հետո՝ իրականություն։
+                            Այս նախագիծը հենց այդպիսի ճանապարհի արդյունք է։
+                            Սկզբում այն պարզապես մի պատկեր էր՝ մտքում ծնված, ապա՝ թելից ու հանգույցներից հյուսված մի պատմություն:
+                            Մակրամեն ինձ համար միայն ձեռագործ տեխնիկա չէ։ Այն հանգստություն է, ինքնարտահայտման ձև։
+                            Ամեն մի հատված մշակվում է ուշադրությամբ, որպեսզի վերջում ստացվի այն, ինչ զգացվում է ոչ միայն աչքով, այլ նաև սրտով։
+                            Եթե դու էլ ես գնահատում ձեռագործի արժեքը, ապա այս մակրամե աշխատանքը ստեղծված է հենց քեզ համար։
+                            Գրիր մեզ՝ քո գաղափարը կյանքի կոչելու համար:
                         </p>
                     </div>
                 </div>

@@ -5,10 +5,10 @@ const Hero = () => {
         <section className="section hero">
             <div className="container">
                 <div className="hero-content">
-                    <h3 className="bg-ivory italic py-1 px-5">Rent. Wear. Repeat.</h3>
-                    <h1>Timeless Macrame For Every Occasion</h1>
+                    <h3 className="bg-ivory italic py-1 px-5 capitalize">Պատվիրիր · Վայելիր · Վերադարձրու</h3>
+                    <h1>Մակրամե, որը կարելի է վայելել՝ առանց գնելու</h1>
                     <p className="simple-text max-w-sm">
-                        Rent beautiful macrame clothing, bags, accessories and nets for any occasion — sustainably and stylishly.
+                        Ձեռագործ մակրամե իրերի հավաքածու՝ տարբեր առիթների, տարածքների ու գաղափարների համար։ Ընտրիր քեզ անհրաժեշտը, վարձիր և դարձրու քո օրը կամ տարածքը ավելի յուրահատուկ։
                     </p>
                     <Link
                         href={`/products`}

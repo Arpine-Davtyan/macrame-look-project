@@ -13,7 +13,7 @@ const icons = {
 
 const StepItem = () => {
     return (
-        <div className="grid grid-cols-2 gap-8 md:flex md:justify-between md:gap-4">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-6">
             {StepItems.map((item, index) => {
                 const Icon = icons[item.icon as keyof typeof icons];
 

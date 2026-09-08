@@ -71,7 +71,7 @@
   }
 
   h1 {
-    @apply text-5xl sm:text-7xl italic;
+    @apply text-5xl sm:text-[54px] italic;
   }
 
   h2 {
@@ -79,7 +79,7 @@
   }
   
   h3 {
-    @apply text-lg text-purple font-dm-sans uppercase font-semibold;
+    @apply text-sm text-purple font-dm-sans uppercase font-semibold;
   }
 
   h4 {
@@ -183,7 +183,7 @@
   /* About */
 
   .about-bold-text {
-    @apply text-lg font-semibold font-dm-sans mt-6 mb-2;
+    @apply text-sm font-semibold font-dm-sans mt-6 mb-2;
   }
 
   /* Footer */

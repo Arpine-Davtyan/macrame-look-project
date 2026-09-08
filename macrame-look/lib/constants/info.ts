@@ -1,7 +1,6 @@
 export const menuItems = [
     { name: "Մեր Մասին", href: "/#about" },
     { name: "Վարձույթ", href: "/products" },
-    { name: "Կապ", href: "/contact" },
 ];
 
 export const socialMedia = [
@@ -22,45 +21,45 @@ export const socialMedia = [
 export const InfoItems = [
     {
         icon: "leaf",
-        title: "Sustainable Choice",
-        text: "Better for you and the planet"
+        title: "ՔՈ ԱՌԻԹԻ ՀԱՄԱՐ",
+        text: "Ծննդյան օր, միջոցառում, ֆոտոշարք, փառատոն կամ պարզապես հատուկ օր։"
     },
     {
         icon: "coatHanger",
-        title: "Sustainable Choice",
-        text: "Better for you and the planet"
+        title: "ՅՈՒՐԱՀԱՏՈՒԿ ԼՈՒՔ",
+        text: "Աքսեսուարներ, որոնք առանձնացնում են նույնիսկ ամենապարզ կերպարը։"
     },
     {
         icon: "heart",
-        title: "Sustainable Choice",
-        text: "Better for you and the planet"
+        title: "ՍՏԵՂԾԻՐ ՔՈ ՄԹՆՈԼՈՐՏԸ",
+        text: "Ընտրիր, համադրիր ու ստեղծիր տարածք, որն ունի իր սեփական պատմությունը։"
     },
     {
         icon: "refresh",
-        title: "Sustainable Choice",
-        text: "Better for you and the planet"
+        title: "ՊԵՏՔ Է ՀԵՆՑ ԱՅՍ ՕՐՎԱ ՀԱՄԱՐ",
+        text: "Վարձիր այն, ինչ քեզ պետք է միայն մեկ առիթի համար։ Օգտագործիր, վայելիր ու վերադարձրու՝ առանց ավելորդ գումար ծախսելու։"
     },
 ];
 
 export const StepItems = [
     {
         icon: "shop",
-        title: "1. Choose",
-        text: "Pick the perfect piece"
+        title: "1. Ընտրիր",
+        text: "Գտիր այն դիզայնը, որը կամբողջացնի քո օրը"
     },
     {
         icon: "schedule",
-        title: "2. Rent",
-        text: "Select your rental period"
+        title: "2. Պատվիրիր",
+        text: "Պատվիրիր այն քո օրվա համար"
     },
     {
         icon: "enjoy",
-        title: "Wear & Enjoy",
-        text: "Shine at your occasion"
+        title: "3. Վայելիր",
+        text: "Ստեղծիր գեղեցիկ հիշողություններ՝ յուրահատուկ դետալով"
     },
     {
         icon: "heart",
-        title: "4. Return",
-        text: "Better for you and the planet"
+        title: "4. Վերադարձրու",
+        text: "Վերադարձրու՝ նոր պատմության համար"
     },
 ];

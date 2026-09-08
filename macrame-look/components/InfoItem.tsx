@@ -18,7 +18,7 @@ const icons = {
 
 const InfoItem = () => {
     return (
-        <div className="grid grid-cols-2 gap-6 sm:flex sm:justify-between sm:gap-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-4 sm:gap-4">
             {InfoItems.map((item, index) => {
                 const Icon = icons[item.icon as keyof typeof icons];
 
