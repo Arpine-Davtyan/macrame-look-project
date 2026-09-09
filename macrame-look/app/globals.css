@@ -71,7 +71,7 @@
   }
 
   h1 {
-    @apply text-5xl sm:text-[54px] italic;
+    @apply text-4xl sm:text-[54px] text-ivory italic;
   }
 
   h2 {
@@ -111,7 +111,7 @@
 
   .hero::before {
     content: "";
-    @apply absolute inset-0 bg-ivory/25;
+    @apply absolute inset-0 bg-ink/25;
   }
 
   .hero > * {

@@ -1,28 +1,28 @@
 "use client";
 
-import { CalendarDotsIcon, DressIcon, HeartIcon, ShoppingBagIcon } from "@phosphor-icons/react";
+import { CalendarDotsIcon, HeartIcon, ShoppingBagIcon, SmileyIcon } from "@phosphor-icons/react";
 
 import { StepItems } from "../lib/constants/info";
 
 const icons = {
     shop: ShoppingBagIcon,
     schedule: CalendarDotsIcon,
-    enjoy: DressIcon,
+    enjoy: SmileyIcon,
     heart: HeartIcon,
 } as const;
 
 const StepItem = () => {
     return (
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-6">
+        <div className="grid grid-cols-2 gap-5 md:grid-cols-4 md:gap-6">
             {StepItems.map((item, index) => {
                 const Icon = icons[item.icon as keyof typeof icons];
 
                 return (
                     <div
                         key={`${item.icon}-${index}`}
-                        className="flex-col-center"
+                        className="flex flex-col items-center"
                     >
-                        <div className="flex-col-center mb-5 h-16 w-16 rounded-full bg-purple/80">
+                        <div className="flex-col-center mb-4 h-16 w-16 rounded-full bg-purple/80">
                             {Icon && (
                                 <Icon
                                     size={30}
@@ -36,7 +36,7 @@ const StepItem = () => {
                             {item.title}
                         </p>
 
-                        <p className="simple-text text-center font-dm-sans font-normal">
+                        <p className="simple-text text-center font-dm-sans font-light">
                             {item.text}
                         </p>
                     </div>
