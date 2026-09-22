@@ -1,6 +1,18 @@
-export const menuItems = [
-    { name: "Մեր Մասին", href: "/#about" },
-    { name: "Վարձույթ", href: "/products" },
+import { Category } from "@/lib/types/product";
+
+export const menuItems = (categories: Category[]) => [
+    {
+        name: "Գլխավոր",
+        href: "/",
+    },
+    {
+        name: "Տեսականի",
+        href: "#",
+        children: categories.map((category) => ({
+            name: category.title,
+            href: `/products?category=${category.value}`,
+        })),
+    },
 ];
 
 export const socialMedia = [

@@ -2,33 +2,82 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { MenuIcon } from "lucide-react";
+import {
+    NavigationMenu,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import {
+    Sheet,
+    SheetContent,
+    SheetTrigger,
+} from "@/components/ui/sheet";
+import { ChevronDown, MenuIcon } from "lucide-react";
 import Logo from "./Logo";
 import { menuItems } from "@/lib/constants/info";
+import { Category } from "@/lib/types/product";
 
-const Navbar = () => {
+type NavbarProps = {
+    categories: Category[];
+};
+
+const Navbar = ({ categories }: NavbarProps) => {
     const [open, setOpen] = useState(false);
+    const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
+
+    const items = menuItems(categories);
 
     return (
         <div className="navbar-block">
             <Logo />
 
             {/* Desktop */}
-            <div className="hidden sm:block">
+            <div className="hidden md:block">
                 <NavigationMenu>
                     <NavigationMenuList className="gap-3">
-                        {menuItems.map((item) => (
+                        {items.map((item) => (
                             <NavigationMenuItem key={item.name}>
-                                <NavigationMenuLink
-                                    className={`${navigationMenuTriggerStyle()} nav-link`}
-                                    render={
-                                        <Link href={item.href}>
+                                {item.children ? (
+                                    <div className="group relative">
+                                        <button
+                                            type="button"
+                                            className={`${navigationMenuTriggerStyle()} nav-link flex items-center gap-1`}
+                                        >
                                             {item.name}
-                                        </Link>
-                                    }
-                                />
+
+                                            <ChevronDown
+                                                size={16}
+                                                className="transition-transform duration-200 group-hover:rotate-180"
+                                            />
+                                        </button>
+
+                                        {/* Dropdown */}
+                                        <div className="invisible absolute left-1/2 top-12 z-50 w-52 -translate-x-1/2 pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                                            <div className="overflow-hidden rounded-xs border border-white/10 bg-[#8C85AD]">
+                                                {item.children.map((child) => (
+                                                    <Link
+                                                        key={child.name}
+                                                        href={child.href}
+                                                        className="block px-5 py-3 text-sm text-ivory transition-colors hover:bg-ivory/5"
+                                                    >
+                                                        {child.name}
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <NavigationMenuLink
+                                        className={`${navigationMenuTriggerStyle()} nav-link`}
+                                        render={
+                                            <Link href={item.href}>
+                                                {item.name}
+                                            </Link>
+                                        }
+                                    />
+                                )}
                             </NavigationMenuItem>
                         ))}
                     </NavigationMenuList>
@@ -37,10 +86,7 @@ const Navbar = () => {
 
             {/* Mobile */}
             <div className="md:hidden">
-                <Sheet
-                    open={open}
-                    onOpenChange={setOpen}
-                >
+                <Sheet open={open} onOpenChange={setOpen}>
                     <SheetTrigger
                         type="button"
                         aria-label="Բացել մենյուն"
@@ -63,17 +109,59 @@ const Navbar = () => {
 
                         {/* Navigation */}
                         <nav className="flex flex-col">
-                            {menuItems.map((item, index) => (
+                            {items.map((item, index) => (
                                 <div key={item.name}>
-                                    <Link
-                                        href={item.href}
-                                        className="mobile-nav-link"
-                                        onClick={() => setOpen(false)}
-                                    >
-                                        <span>{item.name}</span>
-                                    </Link>
+                                    {item.children ? (
+                                        <>
+                                            <button
+                                                type="button"
+                                                className="mobile-nav-link flex w-full items-center justify-between"
+                                                onClick={() =>
+                                                    setMobileCategoriesOpen(
+                                                        !mobileCategoriesOpen
+                                                    )
+                                                }
+                                            >
+                                                <span>{item.name}</span>
 
-                                    {index < menuItems.length - 1 && (
+                                                <ChevronDown
+                                                    size={18}
+                                                    className={`transition-transform duration-200 ${mobileCategoriesOpen
+                                                        ? "rotate-180"
+                                                        : ""
+                                                        }`}
+                                                />
+                                            </button>
+
+                                            {mobileCategoriesOpen && (
+                                                <div className="pb-2 pl-4">
+                                                    {item.children.map(
+                                                        (child) => (
+                                                            <Link
+                                                                key={child.name}
+                                                                href={child.href}
+                                                                className="block border-b border-ivory/10 px-4 py-3 text-sm text-ivory transition-colors hover:text-white last:border-b-0" onClick={() =>
+                                                                    setOpen(false)
+                                                                }
+                                                            >
+                                                                {child.name}
+                                                            </Link>
+                                                        )
+                                                    )}
+                                                </div>
+                                            )}
+                                        </>
+                                    ) : (
+                                        <Link
+                                            href={item.href}
+                                            className="mobile-nav-link"
+                                            onClick={() => setOpen(false)}
+                                        >
+                                            <span>{item.name}</span>
+                                        </Link>
+                                    )}
+
+                                    {index < items.length - 1 && (
                                         <div className="h-px w-full bg-white/10" />
                                     )}
                                 </div>
